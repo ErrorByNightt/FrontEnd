@@ -202,6 +202,7 @@ class _SIgnUpState extends State<SIgnUp> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 550),
                   child: TextFormField(
+                    controller: _usernameCtrl,
                     //textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -229,6 +230,7 @@ class _SIgnUpState extends State<SIgnUp> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 550),
                   child: TextFormField(
+                    controller: _emailCtrl,
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -253,6 +255,7 @@ class _SIgnUpState extends State<SIgnUp> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 550),
                   child: TextFormField(
+                    controller: _passCtrl,
                     //textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -280,6 +283,7 @@ class _SIgnUpState extends State<SIgnUp> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 550),
                   child: TextFormField(
+                    controller: _confirmPassCtrl,
                     //textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(

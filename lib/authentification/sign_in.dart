@@ -15,7 +15,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   static Future<http.Response> login(String username, String password) async {
     Uri LoginURI = Uri.parse("http://localhost:9095/user/login");
-    final data = {"email": username, "password": password};
+    final data = {"mail": username, "password": password};
     String params = jsonEncode(data);
     http.Response response =
         await http.post(LoginURI, body: params, headers: <String, String>{
@@ -469,6 +469,7 @@ class _SignInState extends State<SignIn> {
                     final response = await login(
                         _usernameController.text, _passwdController.text);
                     Map<String, dynamic> body = jsonDecode(response.body);
+                    print(response.statusCode);
                     switch (response.statusCode) {
                       case 200:
                         {
