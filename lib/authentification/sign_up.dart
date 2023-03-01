@@ -1,15 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_coding_game/Components/text_field.dart';
+import 'package:http/http.dart' as http;
 import 'package:project_coding_game/authentification/login_api.dart';
 import 'package:project_coding_game/authentification/sign_in.dart';
 
 import '../Screens/home.dart';
-
-TextEditingController _emailCtrl = TextEditingController();
-TextEditingController _usernameCtrl = TextEditingController();
-TextEditingController _passCtrl = TextEditingController();
-TextEditingController _confirmPassCtrl = TextEditingController();
 
 bool _isPassMatch = false;
 
@@ -22,6 +19,17 @@ class SIgnUp extends StatefulWidget {
 
 class _SIgnUpState extends State<SIgnUp> {
   //var
+  static Future<http.Response> signup(
+      String password, String email, String username) async {
+    Uri signupURI = Uri.parse("http://localhost:9095/user/register");
+    final data = {"mail": email, "password": password, "userName": username};
+    String params = jsonEncode(data);
+    http.Response response =
+        await http.post(signupURI, body: params, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+    return response;
+  }
 
   //var
   GlobalKey<FormState> formKey = GlobalKey();
@@ -36,6 +44,10 @@ class _SIgnUpState extends State<SIgnUp> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _emailCtrl = TextEditingController();
+    TextEditingController _usernameCtrl = TextEditingController();
+    TextEditingController _passCtrl = TextEditingController();
+    TextEditingController _confirmPassCtrl = TextEditingController();
     return Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -294,7 +306,72 @@ class _SIgnUpState extends State<SIgnUp> {
                 // bouton get started
 
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final response = await signup(
+                        _passCtrl.text, _emailCtrl.text, _usernameCtrl.text);
+
+                    Map<String, dynamic> body = jsonDecode(response.body);
+                    switch (response.statusCode) {
+                      case 200:
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('SignUp Successfully'),
+                              content:
+                                  Text('Welcome Abord ' + _usernameCtrl.text),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        break;
+                      case 403:
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Error'),
+                              content: Text('403'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        break;
+                      default:
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Error'),
+                              content: Text('Server Error'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        break;
+                    }
+                  },
                   style: ButtonStyle(
                     fixedSize: MaterialStateProperty.all(const Size(300, 50)),
                     backgroundColor: const MaterialStatePropertyAll(

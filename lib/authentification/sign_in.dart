@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:project_coding_game/authentification/sign_up.dart';
 
 class SignIn extends StatefulWidget {
@@ -11,11 +13,34 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  static Future<http.Response> login(String username, String password) async {
+    Uri LoginURI = Uri.parse("http://localhost:9095/user/login");
+    final data = {"email": username, "password": password};
+    String params = jsonEncode(data);
+    http.Response response =
+        await http.post(LoginURI, body: params, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+    return response;
+  }
+
+  static Future<http.Response> SendMail(String email) async {
+    Uri SendMailURI =
+        Uri.parse("http://localhost:9095/user/send-confirmation-email");
+    final data = {"email": email};
+    String params = jsonEncode(data);
+    http.Response response =
+        await http.post(SendMailURI, body: params, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+    return response;
+  }
+
   //var
 
   late String _username;
   late String _password;
-  //final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
+  final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +52,10 @@ class _SignInState extends State<SignIn> {
       return regex.hasMatch(email);
     }
 
+    TextEditingController _usernameController = TextEditingController();
+    TextEditingController _passwdController = TextEditingController();
     TextEditingController _emailController = TextEditingController();
+
     return Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -193,6 +221,7 @@ class _SignInState extends State<SignIn> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 550),
                   child: TextFormField(
+                    controller: _usernameController,
                     //textAlign: TextAlign.center,
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -220,6 +249,7 @@ class _SignInState extends State<SignIn> {
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 550),
                   child: TextFormField(
+                    controller: _passwdController,
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30.0)),
@@ -310,7 +340,7 @@ class _SignInState extends State<SignIn> {
                             ),
                             actions: [
                               ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   String email = _emailController.text;
                                   if (!_isValidEmail(email)) {
                                     // Show an error message
@@ -324,17 +354,80 @@ class _SignInState extends State<SignIn> {
                                             'Veuillez entrer une adresse e-mail valide.'),
                                         actions: [
                                           TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
+                                            onPressed: () async {},
                                             child: Text('OK'),
                                           ),
                                         ],
                                       ),
                                     );
                                   } else {
+                                    final response =
+                                        await SendMail(_emailController.text);
+
+                                    Map<String, dynamic> body =
+                                        jsonDecode(response.body);
+                                    switch (response.statusCode) {
+                                      case 200:
+                                        {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: const Text(
+                                                  'Mail Sent Successfully'),
+                                              content: Text('Sent to ' +
+                                                  _emailController.text),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('OK'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                        break;
+                                      case 403:
+                                        {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: const Text('Error'),
+                                              content: Text('403'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('OK'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                        break;
+                                      default:
+                                        {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => AlertDialog(
+                                              title: const Text('Error'),
+                                              content: Text('Server Error'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('OK'),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                        break;
+                                    }
                                     print('L\'e-mail $email a été envoyé');
-                                    Navigator.of(context).pop();
                                   }
                                 },
                                 child: Text('Send'),
@@ -372,7 +465,71 @@ class _SignInState extends State<SignIn> {
                 // bouton get started
 
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final response = await login(
+                        _usernameController.text, _passwdController.text);
+                    Map<String, dynamic> body = jsonDecode(response.body);
+                    switch (response.statusCode) {
+                      case 200:
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Login Successful'),
+                              content:
+                                  Text('Welcome ' + _usernameController.text),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        break;
+                      case 403:
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Error'),
+                              content: Text('403'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        break;
+                      default:
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Error'),
+                              content: Text('Server Error'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        break;
+                    }
+                  },
                   style: ButtonStyle(
                     fixedSize: MaterialStateProperty.all(const Size(300, 50)),
                     backgroundColor: const MaterialStatePropertyAll(
