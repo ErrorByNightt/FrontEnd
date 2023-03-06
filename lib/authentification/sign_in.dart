@@ -70,6 +70,18 @@ class _SignInState extends State<SignIn> {
     return response;
   }
 
+  static Future<http.Response> update(String password, String email) async {
+    Uri SendMailURI =
+    Uri.parse("http://localhost:9095/user/update");
+    final data = {"mail": email,"password": password};
+    String params = jsonEncode(data);
+    http.Response response =
+    await http.post(SendMailURI, body: params, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+    return response;
+  }
+
   //var
 
   late String _username;
@@ -390,7 +402,6 @@ class _SignInState extends State<SignIn> {
                                       child: ElevatedButton(
                                         onPressed: () async {
                                           String email = _emailController.text;
-                                          if (!_isValidEmail(email)) {
                                             Navigator.of(context).pop();
 
                                             // Show an error message
@@ -644,7 +655,7 @@ class _SignInState extends State<SignIn> {
                                                                               SizedBox(height: 6),
                                                                               TextField(
                                                                                 textAlign: TextAlign.start, //Ajout de cette ligne pour centrer le texte
-                                                                                //controller: _emailCtrl,
+                                                                                controller: _passwdController,
                                                                                 decoration: InputDecoration(
                                                                                   hintText: '........',
                                                                                   hintStyle: TextStyle(color: Colors.grey.shade600),
@@ -664,7 +675,7 @@ class _SignInState extends State<SignIn> {
                                                                               SizedBox(height: 6),
                                                                               TextField(
                                                                                 textAlign: TextAlign.start, //Ajout de cette ligne pour centrer le texte
-                                                                                //controller: _emailCtrl,
+
                                                                                 decoration: InputDecoration(
                                                                                   hintText: '.........',
                                                                                   hintStyle: TextStyle(color: Colors.grey.shade600),
@@ -687,7 +698,9 @@ class _SignInState extends State<SignIn> {
                                                                                 SizedBox(
                                                                                   width: 150,
                                                                                   child: ElevatedButton(
-                                                                                    onPressed: () {},
+                                                                                    onPressed: () {
+                                                                                      update(_passwdController.text,_emailController.text);
+                                                                                    },
                                                                                     child: Text(
                                                                                       'CONFIRMER',
                                                                                       style: TextStyle(color: Colors.black),
@@ -756,7 +769,6 @@ class _SignInState extends State<SignIn> {
                                                 );
                                               },
                                             );
-                                          } else {
                                             final response = await SendMail(
                                                 _emailController.text);
 
@@ -816,7 +828,7 @@ class _SignInState extends State<SignIn> {
                                             }
                                             print(
                                                 'L\'e-mail $email a été envoyé');
-                                          }
+
                                         },
                                         child: Text('Send'),
                                         style: ElevatedButton.styleFrom(
