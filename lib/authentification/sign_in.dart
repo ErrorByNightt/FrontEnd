@@ -6,14 +6,14 @@ import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:project_coding_game/Screens/FeedBack.dart';
 import 'package:project_coding_game/authentification/sign_up.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class AboutUs extends StatefulWidget {
+  const AboutUs({super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<AboutUs> createState() => _AboutUsState();
 }
 
-class _SignInState extends State<SignIn> {
+class _AboutUsState extends State<AboutUs> {
   //var
 
   late String _username;
@@ -107,7 +107,9 @@ class _SignInState extends State<SignIn> {
                             shadowColor: MaterialStateProperty.all(
                                 Color.fromARGB(19, 238, 155, 155)),
                           ),
-                          onPressed: () {},
+                          onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AboutUs(),
+                          ),
+                          ); },
                           child: const Text(
                             'About Us',
                             style: TextStyle(fontSize: 10, letterSpacing: 1),
@@ -415,3 +417,4 @@ class _SignInState extends State<SignIn> {
         ));
   }
 }
+

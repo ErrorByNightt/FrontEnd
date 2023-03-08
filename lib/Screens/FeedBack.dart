@@ -32,10 +32,10 @@ class _FeedBackState extends State<FeedBack> {
     return Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-          colors: [Color(0xff951208), Color(0xff250402)],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        )),
+              colors: [Color(0xff951208), Color(0xff250402)],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            )),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -72,7 +72,7 @@ class _FeedBackState extends State<FeedBack> {
             child: Column(
               children: [
                 Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       // ignore: avoid_unnecessary_containers
                       Image.asset(
@@ -86,7 +86,7 @@ class _FeedBackState extends State<FeedBack> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                            MaterialStateProperty.all(Colors.transparent),
                             shadowColor: MaterialStateProperty.all(
                                 Color.fromARGB(19, 238, 155, 155)),
                           ),
@@ -102,7 +102,7 @@ class _FeedBackState extends State<FeedBack> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                            MaterialStateProperty.all(Colors.transparent),
                             shadowColor: MaterialStateProperty.all(
                                 Color.fromARGB(19, 238, 155, 155)),
                           ),
@@ -118,7 +118,7 @@ class _FeedBackState extends State<FeedBack> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                            MaterialStateProperty.all(Colors.transparent),
                             shadowColor: MaterialStateProperty.all(
                                 Color.fromARGB(19, 238, 155, 155)),
                           ),
@@ -141,7 +141,7 @@ class _FeedBackState extends State<FeedBack> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                            MaterialStateProperty.all(Colors.transparent),
                             shadowColor: MaterialStateProperty.all(
                                 Color.fromARGB(255, 238, 172, 172)),
                           ),
@@ -161,167 +161,182 @@ class _FeedBackState extends State<FeedBack> {
                       ),
                     ]),
 
-          Column(
-
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
                 Row(
                   children: [
-                    const SizedBox(width: 60),
-
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            const SizedBox(width: 60),
+                            Column(
+                              children: [
+                                const Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    'NEED HELP ? ',
+                                    style: TextStyle(
+                                      fontFamily: 'Inika',
+                                      fontSize: 50.0,
+                                      letterSpacing: 5,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+
+                                const SizedBox(height: 20),
+
+                                const Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    'Our crew are standing by for service & support !',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      letterSpacing: 2,
+                                      color: Color.fromARGB(255, 222, 124, 124),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 40),
+                        //  Text Field
+
+                        Row(
+                          children: [
+                            //const SizedBox(height: 40),
+                            Container(
+                              margin: const EdgeInsets.only(left: 35.0, right: 0),
+                              width: 500,
+                              height: 200,
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                      borderSide: BorderSide(
+                                        width: 0,
+                                        style: BorderStyle.none,
+                                      )),
+                                  fillColor: Color.fromARGB(103, 229, 229, 229),
+                                  filled: true,
+                                  prefixIcon: Icon(Icons.mail,
+                                      color: Color.fromARGB(255, 252, 239, 239)),
+                                  hintText: "Your E-mail",
+                                  hintStyle: TextStyle(
+                                      color: Color.fromARGB(255, 252, 239, 239),
+                                      letterSpacing: 1,
+                                      fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        //const SizedBox(height: 20),
+
+                        // textfield Password
+
+                        Row(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(left: 35.0, right: 0),
+                              width: 500,
+                              height: 200,
+                              child: const TextField(
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                    borderSide: BorderSide(
+                                      width: 0,
+                                      style: BorderStyle.none,
+                                    ),
+                                  ),
+                                  fillColor: Color.fromARGB(103, 229, 229, 229),
+                                  filled: true,
+                                  prefixIcon: Icon(
+                                    Icons.feedback,
+                                    color: Color.fromARGB(255, 252, 239, 239),
+                                  ),
+                                  hintText: "Your FeedBack",
+                                  hintStyle: TextStyle(
+                                    color: Color.fromARGB(255, 252, 239, 239),
+                                    letterSpacing: 1,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                       // const SizedBox(height: 20),
+
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 125.0,
+                              height: 30.0,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all(const Size(300, 50)),
+                                backgroundColor: const MaterialStatePropertyAll(
+                                    Color.fromARGB(255, 239, 150, 150)),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                              ),
+                              child: const Text('SEND'),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 60),
+                      ],
+                    ),
+                    Row(
                       children: [
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'NEED HELP ? ',
-                            style: TextStyle(
-                              fontFamily: 'Inika',
-                              fontSize: 50.0,
-                              letterSpacing: 5,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        Container(
+                            child: Image.asset(
+                                'assets/images/imgFeedBack.png',
+                                width: 960,
+                                height: 670)),
 
-                        const SizedBox(height: 20),
-
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Our crew are standing by for service & support !',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              letterSpacing: 2,
-                              color: Color.fromARGB(255, 222, 124, 124),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 40),
-                //  Text Field
 
-                Container(
-                  margin: const EdgeInsets.only(left: 20.0, right: 1000),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                          borderSide: BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          )),
-                      fillColor: Color.fromARGB(103, 229, 229, 229),
-                      filled: true,
-                      prefixIcon: Icon(Icons.mail,
-                          color: Color.fromARGB(255, 252, 239, 239)),
-                      hintText: "Your E-mail",
-                      hintStyle: TextStyle(
-                          color: Color.fromARGB(255, 252, 239, 239),
-                          letterSpacing: 1,
-                          fontSize: 15),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // textfield Password
-
-                Container(
-                  margin: const EdgeInsets.only(left: 20.0, right: 1000),
-                  child: TextField(
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                        borderSide: BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
-                      ),
-                      fillColor: Color.fromARGB(103, 229, 229, 229),
-                      filled: true,
-                      prefixIcon: Icon(
-                        Icons.feedback,
-                        color: Color.fromARGB(255, 252, 239, 239),
-                      ),
-                      hintText: "Your FeedBack",
-                      hintStyle: TextStyle(
-                        color: Color.fromARGB(255, 252, 239, 239),
-                        letterSpacing: 1,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                Row(
-                  children: [
-                  SizedBox(
-                    width: 125.0,
-                  height: 30.0,
-                ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        fixedSize: MaterialStateProperty.all(const Size(300, 50)),
-                        backgroundColor: const MaterialStatePropertyAll(
-                            Color.fromARGB(255, 239, 150, 150)),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                      ),
-                      child: const Text('SEND'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 60),
-            ],
-          ),
-
-                Row(
-                  children: [
-                    Container(
-                        child: Image.asset(
-                            'assets/images/logo.png',
-                            width: 1500,
-                            height: 50)),
-
-                  ],
-                ),
-
-                Row(
-                  //  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 80),
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          textStyle: const TextStyle(
-                            fontSize: 13,
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: const Text(
-                          'Terms and Conditions',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                  ],
-                ),
+                // Row(
+                //   //  crossAxisAlignment: CrossAxisAlignment.end,
+                //   children: [
+                //     Container(
+                //       margin: const EdgeInsets.only(top: 80),
+                //       child: TextButton(
+                //         style: TextButton.styleFrom(
+                //           textStyle: const TextStyle(
+                //             fontSize: 13,
+                //           ),
+                //         ),
+                //         onPressed: () {},
+                //         child: const Text(
+                //           'Terms and Conditions',
+                //           style: TextStyle(
+                //             color: Colors.white,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     Spacer(),
+                //   ],
+                // ),
 
               ],
             ),
