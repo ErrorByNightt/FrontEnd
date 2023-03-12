@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project_coding_game/Games/game_home.dart';
+import 'package:project_coding_game/Games/hangman.dart';
+import 'package:project_coding_game/Screens/Coding.dart';
+import 'package:project_coding_game/Screens/Quiz.dart';
 import 'package:project_coding_game/Screens/courses.dart';
 import 'package:project_coding_game/Screens/home.dart';
 import 'package:project_coding_game/Screens/profile.dart';
@@ -17,11 +21,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
             //  primarySwatch: Colors.blue,
             ),
-        home: const SignIn());
+        home: QuizScreen());
   }
 }
 
