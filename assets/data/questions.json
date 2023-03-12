@@ -1,0 +1,22 @@
+[
+  {
+    "question": "Complétez la fonction suivante pour déterminer si un nombre est pair en Java",
+    "answer": "public static boolean isEven(int number) {\n return number % 2 == 0;\n}"
+  },
+  {
+    "question": "Quelle est la sortie de ce code JavaScript ?\n\n\nconsole.log(1 + '2' + '2');\n",
+    "answer": "122"
+  },
+  {
+    "question": "Quelle est la sortie de ce code JavaScript ?\n\n\nconsole.log(1 + +'2' + '2');\n",
+    "answer": "32"
+  },
+  {
+    "question": "Quelle est la sortie de ce code JavaScript ?\n\n\nconsole.log(typeof typeof 1);\n",
+    "answer": "string"
+  },
+  {
+    "question": "Dans JavaScript, quelle est la différence entre == et ===?",
+    "answer": "== compare deux valeurs après les avoir converties en un type commun, tandis que === compare les valeurs sans les convertir."
+  }
+]
