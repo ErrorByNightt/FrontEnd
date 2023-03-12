@@ -138,7 +138,7 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => courses(),
+                        builder: (context) => Courses(),
                       ),
                     );
                   },
@@ -252,7 +252,6 @@ class HomePage extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                           ),
                         ),
-                        
                         PopupMenuItem(
                           child: GestureDetector(
                             onTap: () {

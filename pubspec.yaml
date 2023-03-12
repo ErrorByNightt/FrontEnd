@@ -58,6 +58,7 @@ dependencies:
   flutter_highlight: ^0.7.0
   flutter_animated_dialog: ^2.0.1
   slide_countdown: ^0.2.5
+  flutter_pdfview: ^1.0.1
 
 
 dev_dependencies:
