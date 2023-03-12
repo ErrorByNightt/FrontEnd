@@ -22,7 +22,6 @@ class _SignInState extends State<SignIn> {
   TextEditingController pin4Controller = TextEditingController();
 
   late FocusNode pin1FocusNode;
-
   late FocusNode pin2FocusNode;
   late FocusNode pin3FocusNode;
   late FocusNode pin4FocusNode;
@@ -31,7 +30,6 @@ class _SignInState extends State<SignIn> {
   void initState() {
     super.initState();
     pin1FocusNode = FocusNode();
-
     pin2FocusNode = FocusNode();
     pin3FocusNode = FocusNode();
     pin4FocusNode = FocusNode();
@@ -41,7 +39,6 @@ class _SignInState extends State<SignIn> {
   void dispose() {
     super.dispose();
     pin1FocusNode.dispose();
-
     pin2FocusNode.dispose();
     pin3FocusNode.dispose();
     pin4FocusNode.dispose();

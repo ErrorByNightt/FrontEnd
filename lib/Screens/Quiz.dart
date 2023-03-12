@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
@@ -13,8 +15,37 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
+
+  static Future<QCM> GetQCM() async {
+    Uri getQCMURI = Uri.parse("http://localhost:9095/ai/genQCM");
+    http.Response response =
+    await http.get(getQCMURI, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+    var decoded = json.decode(response.body);
+    QCM object = new QCM(decoded[0]['_id'], decoded[0]['question'], decoded[0]['answer1'], decoded[0]['answer2'], decoded[0]['answer3'], decoded[0]['answer4'], decoded[0]['correctAnswer']);
+    return object;
+  }
+
+  static Future<http.Response> SolveQCM(String id, String UserAttepmt) async {
+    Uri solveQCMURI = Uri.parse("http://localhost:9095/ai/solveQCM");
+    final data = {"id": id, "userAttempt": UserAttepmt};
+    String params = jsonEncode(data);
+    http.Response response =
+    await http.post(solveQCMURI, body: params, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+    print(response);
+    return response;
+  }
+
+  void populateQuestionList() async {
+    QCM qcm = await GetQCM();
+    questionList.add(qcm);
+  }
+
   // Define the data
-  List<Question> questionList = getQuestions();
+  List<QCM> questionList = [];
   int currentQuestionIndex = 0;
   int score = 0;
   TextEditingController answerController = TextEditingController();
@@ -57,6 +88,9 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   void initState() {
     super.initState();
+    for (int i=0; i<5; i++) {
+      populateQuestionList();
+    }
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (_timeLeft > 0) {
@@ -138,7 +172,7 @@ class _QuizScreenState extends State<QuizScreen> {
             child: Column(
               children: [
                 Text(
-                  questionList[currentQuestionIndex].questionText,
+                  questionList[currentQuestionIndex].question,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -158,12 +192,16 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   _answerList() {
+    List<String> AnswerList = [];
+    AnswerList.add(questionList[currentQuestionIndex].answer1);
+    AnswerList.add(questionList[currentQuestionIndex].answer2);
+    AnswerList.add(questionList[currentQuestionIndex].answer3);
+    AnswerList.add(questionList[currentQuestionIndex].answer4);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        children: questionList[currentQuestionIndex]
-            .answersList
+        children: AnswerList
             .map((answer) => GestureDetector(
                   onTap: () {},
                   child: Container(
@@ -174,7 +212,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Text(
-                      answer.answerText,
+                      answer,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -206,21 +244,27 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Widget _nextButton() {
     return ElevatedButton.icon(
-      onPressed: () {
+      onPressed: () async {
         // Check if the user input is correct
-        String userAnswer = answerController.text.toLowerCase();
+        String userAnswer = answerController.text;
         bool isAnswerCorrect = false;
-        for (Answer answer in questionList[currentQuestionIndex].answersList) {
-          if (answer.isCorrect &&
-              answer.answerText.toLowerCase() == userAnswer) {
-            isAnswerCorrect = true;
-            break;
-          }
-        }
-        if (isAnswerCorrect) {
+
+        print(questionList[currentQuestionIndex].id);
+        print(userAnswer);
+
+        final response = await SolveQCM(questionList[currentQuestionIndex].id, userAnswer);
+
+        print(response.statusCode);
+
+
+        if (response.statusCode == 200) {
           // Increase the score if the answer is correct
           score++;
+        } else if (response.statusCode == 403) {
+          print("Bad Answer");
         }
+
+        print(score);
         // Clear the answer text field
         answerController.clear();
 
@@ -285,4 +329,16 @@ class _QuizScreenState extends State<QuizScreen> {
       duration: Duration(milliseconds: 500),
     );
   }
+}
+
+class QCM {
+  final String id;
+  final String question;
+  final String answer1;
+  final String answer2;
+  final String answer3;
+  final String answer4;
+  final String correctAnswer;
+
+  QCM(this.id, this.question, this.answer1, this.answer2, this.answer3, this.answer4, this.correctAnswer);
 }
