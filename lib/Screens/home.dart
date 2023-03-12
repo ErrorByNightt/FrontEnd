@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:project_coding_game/Courses/pdf.dart';
 import 'package:project_coding_game/Games/Entrainement.dart';
+import 'package:project_coding_game/Games/game_home.dart';
 import 'package:project_coding_game/Screens/AI.dart';
 import 'package:project_coding_game/Screens/AccueilPage.dart';
 import 'package:project_coding_game/Screens/courses.dart';
@@ -168,7 +170,7 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Entrainement(),
+                        builder: (context) => GameHome(),
                       ),
                     );
                   },
@@ -250,6 +252,7 @@ class HomePage extends StatelessWidget {
                                 style: TextStyle(color: Colors.white)),
                           ),
                         ),
+                        
                         PopupMenuItem(
                           child: GestureDetector(
                             onTap: () {
@@ -365,23 +368,29 @@ class HomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    width: 250,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(99, 64, 195, 255),
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.white,
-                          Color.fromARGB(66, 222, 211, 211)
-                        ],
-                      ),
-                      image: const DecorationImage(
-                        image: NetworkImage(
-                            'https://blog.dyma.fr/content/images/2022/02/python1200x628.png'),
-                        fit: BoxFit.cover,
+                  InkWell(
+                    onTap: (() {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => PdfBook()));
+                    }),
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      width: 250,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(99, 64, 195, 255),
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white,
+                            Color.fromARGB(66, 222, 211, 211)
+                          ],
+                        ),
+                        image: const DecorationImage(
+                          image: NetworkImage(
+                              'https://blog.dyma.fr/content/images/2022/02/python1200x628.png'),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
