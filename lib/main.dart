@@ -1,8 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:project_coding_game/Screens/chalenge-page.dart';
 import 'package:project_coding_game/Screens/courses.dart';
 import 'package:project_coding_game/Screens/home.dart';
 import 'package:project_coding_game/authentification/sign_in.dart';
 import 'package:project_coding_game/authentification/sign_up.dart';
+
+import 'Screens/quiz.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +24,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             //  primarySwatch: Colors.blue,
             ),
-        home: const SplashScreen());
+        home: Scene());
   }
 }
 
