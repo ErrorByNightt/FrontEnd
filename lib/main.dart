@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:project_coding_game/Games/game_home.dart';
 import 'package:project_coding_game/Games/hangman.dart';
+import 'package:project_coding_game/Screens/Blog.dart';
+import 'package:project_coding_game/Screens/Classement.dart';
 import 'package:project_coding_game/Screens/Coding.dart';
 import 'package:project_coding_game/Screens/Quiz.dart';
 import 'package:project_coding_game/Screens/courses.dart';
 import 'package:project_coding_game/Screens/home.dart';
 import 'package:project_coding_game/Screens/profile.dart';
+import 'package:project_coding_game/Screens/rooms/create_room.dart';
+import 'package:project_coding_game/Screens/rooms/join_room.dart';
 import 'package:project_coding_game/Screens/terms&conditions.dart';
 import 'package:project_coding_game/authentification/sign_in.dart';
 import 'package:project_coding_game/authentification/sign_up.dart';
@@ -26,7 +30,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             //  primarySwatch: Colors.blue,
             ),
-        home: QuizScreen());
+        routes: {
+          JoinRoom.routeName: (context) => const JoinRoom(),
+          CreateRoom.routeName: (context) => const CreateRoom(),
+        },
+        home: Blog());
   }
 }
 
