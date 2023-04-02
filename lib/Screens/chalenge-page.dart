@@ -2,59 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_coding_game/Screens/level-page.dart';
 import 'package:project_coding_game/Screens/utils.dart';
 
-class Scene extends StatelessWidget {
-  const Scene({super.key});
+class Scene extends StatefulWidget {
 
   @override
+  State<Scene> createState() => _SceneState();
+}
+
+class _SceneState extends State<Scene> {
+  int _selectedIconIndex = -1;
+  @override
   Widget build(BuildContext context) {
+
     double baseWidth = 1908.96875;
     double fem = MediaQuery.of(context).size.width / baseWidth;
     double ffem = fem * 0.97;
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      /*  appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 101, 16, 10).withOpacity(0.9),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // ignore: avoid_unnecessary_containers
-            Container(
-              child: const Text(
-                'Help-Line (+234)08128916397',
-                //   textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontSize: 10.0,
-                  color: Colors.white,
-                ),
-              ),
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Container(
+          width: double.infinity,
+          height: 1122.11*fem,
+          decoration: BoxDecoration (
+            gradient: LinearGradient (
+              begin: Alignment(-0.971, -1),
+              end: Alignment(1.057, -1),
+              colors: <Color>[Color(0xffbe002d), Color(0xff281d2a), Color(0xdd200000)],
+              stops: <double>[0, 0.568, 1],
             ),
-            Container(
-              margin: const EdgeInsets.only(left: 700.0),
-              child: const Text(
-                'Email: codeninja@gmail.com',
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  fontSize: 10.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),*/
-      body: Container(
-        // width: double.infinity,
-
-        child: SingleChildScrollView(
-          child: Container(
-            // frame16Gr9 (166:186)
-            width: double.infinity,
-            height: 1114.11*fem,
-            child: Stack(
-              children: [
-                Positioned(
+          ),
+          child: Stack(
+            children: [
+              Positioned(
                   // rectangle840LLD (166:187)
                   left: 0*fem,
                   top: 12*fem,
@@ -117,153 +98,153 @@ class Scene extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
-                  // metaimageremovebgpreview8SAH (169:229)
-                  left: 1454*fem,
-                  top: 807*fem,
-                  child: Align(
-                    child: SizedBox(
-                      width: 134*fem,
-                      height: 112*fem,
-                      child: Image.asset(
-                        'assets/images/meta-image-removebg-preview-8.png',
-                        fit: BoxFit.cover,
+              Positioned(
+                // metaimageremovebgpreview8SAH (169:229)
+                left: 1454*fem,
+                top: 807*fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 134*fem,
+                    height: 112*fem,
+                    child: Image.asset(
+                      'assets/images/meta-image-removebg-preview-8.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                // metaimageremovebgpreview1idb (169:225)
+                left: 615*fem,
+                top: 807*fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 120*fem,
+                    height: 106*fem,
+                    child: Image.asset(
+                      'assets/images/meta-image-removebg-preview-1.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                // metaimageremovebgpreview5Pzd (169:227)
+                left: 1607*fem,
+                top: 803*fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 168*fem,
+                    height: 122*fem,
+                    child: Image.asset(
+                      'assets/images/meta-image-removebg-preview-5.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                // metaimageremovebgpreview3V25 (169:228)
+                left: 425*fem,
+                top: 796*fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 182*fem,
+                    height: 101*fem,
+                    child: Image.asset(
+                      'assets/images/meta-image-removebg-preview-3.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                // goodboy55yhw (169:223)
+                left: 1397*fem,
+                top: 513*fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 191*fem,
+                    height: 45*fem,
+                    child: Text(
+                      'GOODBOY55',
+                      style: SafeGoogleFont (
+                        'Poppins',
+                        fontSize: 30*ffem,
+                        fontWeight: FontWeight.w500,
+                        height: 1.5*ffem/fem,
+                        color: Color(0xffffffff),
                       ),
                     ),
                   ),
                 ),
-                Positioned(
-                  // metaimageremovebgpreview1idb (169:225)
-                  left: 615*fem,
-                  top: 807*fem,
-                  child: Align(
-                    child: SizedBox(
-                      width: 120*fem,
-                      height: 106*fem,
-                      child: Image.asset(
-                        'assets/images/meta-image-removebg-preview-1.png',
-                        fit: BoxFit.cover,
+              ),
+              Positioned(
+                // goodboy55SrR (169:224)
+                left: 618*fem,
+                top: 513*fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 191*fem,
+                    height: 45*fem,
+                    child: Text(
+                      'GOODBOY55',
+                      style: SafeGoogleFont (
+                        'Poppins',
+                        fontSize: 30*ffem,
+                        fontWeight: FontWeight.w500,
+                        height: 1.5*ffem/fem,
+                        color: Color(0xffffffff),
                       ),
                     ),
                   ),
                 ),
-                Positioned(
-                  // metaimageremovebgpreview5Pzd (169:227)
-                  left: 1607*fem,
-                  top: 803*fem,
-                  child: Align(
-                    child: SizedBox(
-                      width: 168*fem,
-                      height: 122*fem,
-                      child: Image.asset(
-                        'assets/images/meta-image-removebg-preview-5.png',
-                        fit: BoxFit.cover,
-                      ),
+              ),
+              Positioned(
+                // metaimageremovebgpreview6uzu (166:455)
+                left: 1203*fem,
+                top: 757*fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 251*fem,
+                    height: 222*fem,
+                    child: Image.asset(
+                      'assets/images/meta-image-removebg-preview-6.png',
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                Positioned(
-                  // metaimageremovebgpreview3V25 (169:228)
-                  left: 425*fem,
-                  top: 796*fem,
-                  child: Align(
-                    child: SizedBox(
-                      width: 182*fem,
-                      height: 101*fem,
-                      child: Image.asset(
-                        'assets/images/meta-image-removebg-preview-3.png',
-                        fit: BoxFit.cover,
-                      ),
+              ),
+              Positioned(
+                // metaimageremovebgpreview4QAy (166:456)
+                left: 970*fem,
+                top: 744*fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 233*fem,
+                    height: 207*fem,
+                    child: Image.asset(
+                      'assets/images/meta-image-removebg-preview-4.png',
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                Positioned(
-                  // goodboy55yhw (169:223)
-                  left: 1397*fem,
-                  top: 513*fem,
-                  child: Align(
-                    child: SizedBox(
-                      width: 191*fem,
-                      height: 45*fem,
-                      child: Text(
-                        'GOODBOY55',
-                        style: SafeGoogleFont (
-                          'Poppins',
-                          fontSize: 30*ffem,
-                          fontWeight: FontWeight.w500,
-                          height: 1.5*ffem/fem,
-                          color: Color(0xffffffff),
-                        ),
-                      ),
+              ),
+              Positioned(
+                // metaimageremovebgpreview7Giy (166:457)
+                left: 773*fem,
+                top: 774*fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 160*fem,
+                    height: 153*fem,
+                    child: Image.asset(
+                      'assets/images/meta-image-removebg-preview-7.png',
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                Positioned(
-                  // goodboy55SrR (169:224)
-                  left: 618*fem,
-                  top: 513*fem,
-                  child: Align(
-                    child: SizedBox(
-                      width: 191*fem,
-                      height: 45*fem,
-                      child: Text(
-                        'GOODBOY55',
-                        style: SafeGoogleFont (
-                          'Poppins',
-                          fontSize: 30*ffem,
-                          fontWeight: FontWeight.w500,
-                          height: 1.5*ffem/fem,
-                          color: Color(0xffffffff),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  // metaimageremovebgpreview6uzu (166:455)
-                  left: 1203*fem,
-                  top: 757*fem,
-                  child: Align(
-                    child: SizedBox(
-                      width: 251*fem,
-                      height: 222*fem,
-                      child: Image.asset(
-                        'assets/images/meta-image-removebg-preview-6.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  // metaimageremovebgpreview4QAy (166:456)
-                  left: 970*fem,
-                  top: 744*fem,
-                  child: Align(
-                    child: SizedBox(
-                      width: 233*fem,
-                      height: 207*fem,
-                      child: Image.asset(
-                        'assets/images/meta-image-removebg-preview-4.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  // metaimageremovebgpreview7Giy (166:457)
-                  left: 773*fem,
-                  top: 774*fem,
-                  child: Align(
-                    child: SizedBox(
-                      width: 160*fem,
-                      height: 153*fem,
-                      child: Image.asset(
-                        'assets/images/meta-image-removebg-preview-7.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
+              ),
                 Positioned(
                   // group9102ZCH (166:188)
                   left: 364.5*fem,
@@ -360,110 +341,119 @@ class Scene extends StatelessWidget {
                     decoration: BoxDecoration (
                       color: Color(0x30d9d9d9),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          // group1175aAZ (166:346)
-                          margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
-                          padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 30.63*fem, 12.21*fem),
-                          width: double.infinity,
-                          height: 102.6*fem,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom (
-                              padding: EdgeInsets.zero,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // globeegD (166:349)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
-                                  width: 25.1*fem,
-                                  height: 32.07*fem,
-                                  child: Image.asset(
-                                    'assets/images/home-page-SuB.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                Container(
-                                  // documentation9ss (166:348)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
-                                  child: Text(
-                                    'Home',
-                                    style: SafeGoogleFont (
-                                      'Inter',
-                                      fontSize: 18*ffem,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.2125*ffem/fem,
-                                      color: Color(0xd1ffffff),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          // group1175aAZ (166:346)
-                          margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
-                         padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 30.63*fem, 12.21*fem),
-                          width: double.infinity,
-                          height: 102.6*fem,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom (
-                              padding: EdgeInsets.zero,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // globeegD (166:349)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
-                                  width: 25.1*fem,
-                                  height: 32.07*fem,
-                                  child: Image.asset(
-                                    'assets/images/trophee-du-championnat-1-8BX.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                Container(
-                                  // documentation9ss (166:348)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
-                                  child: Text(
-                                    'Classement',
-                                    style: SafeGoogleFont (
-                                      'Inter',
-                                      fontSize: 18*ffem,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.2125*ffem/fem,
-                                      color: Color(0xd1ffffff),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          // group1173XGq (166:338)
-                          margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 0*fem),
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom (
-                              padding: EdgeInsets.zero,
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(15.06*fem, 7.33*fem, 105.63*fem, 7.33*fem),
-                              width: double.infinity,
-                              height: 124.59*fem,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            // group1175aAZ (166:346)
+                            margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
+                            padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 30.63*fem, 12.21*fem),
+                            width: double.infinity,
+                            height: 102.6*fem,
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                              ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    // discordnewj81 (166:341)
+                                    // globeegD (166:349)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
+                                    width: 25.1*fem,
+                                    height: 32.07*fem,
+                                    child: Image.asset(
+                                      'assets/images/home-page-SuB.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  Container(
+                                    // documentation9ss (166:348)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
+                                    child: Text(
+                                      'Home',
+                                      style: SafeGoogleFont(
+                                        'Inter',
+                                        fontSize: 18*ffem,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2125*ffem/fem,
+                                        color: Color(0xd1ffffff),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 21.99*fem),
+                          Container(
+                            // group1175aAZ (166:346)
+                            margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
+                            padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 30.63*fem, 12.21*fem),
+                            width: double.infinity,
+                            height: 102.6*fem,
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom (
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    // globeegD (166:349)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
+                                    width: 25.1*fem,
+                                    height: 32.07*fem,
+                                    child: Image.asset(
+                                      'assets/images/trophee-du-championnat-1-8BX.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  Container(
+                                    // documentation9ss (166:348)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
+                                    child: Text(
+                                      'Classement',
+                                      style: SafeGoogleFont (
+                                        'Inter',
+                                        fontSize: 18*ffem,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2125*ffem/fem,
+                                        color: Color(0xd1ffffff),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 21.99*fem),
+                          Container(
+                            // group1175aAZ (166:346)
+                            margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
+                            padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 30.63*fem, 12.21*fem),
+                            width: double.infinity,
+                            height: 102.6*fem,
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Level(),
+                                  ),
+                                );
+                              },
+                              style: TextButton.styleFrom (
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    // globeegD (166:349)
                                     margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
                                     width: 25.1*fem,
                                     height: 32.07*fem,
@@ -473,7 +463,7 @@ class Scene extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    // levelsQzq (166:340)
+                                    // documentation9ss (166:348)
                                     margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
                                     child: Text(
                                       'Levels',
@@ -490,176 +480,182 @@ class Scene extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
-                        Container(
-                          // group1175aAZ (166:346)
-                          margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
-                          padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 30.63*fem, 12.21*fem),
-                          width: double.infinity,
-                          height: 102.6*fem,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom (
-                              padding: EdgeInsets.zero,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // globeegD (166:349)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
-                                  width: 25.1*fem,
-                                  height: 32.07*fem,
-                                  child: Image.asset(
-                                    'assets/images/student-center-M3B.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                Container(
-                                  // documentation9ss (166:348)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
-                                  child: Text(
-                                    'Education',
-                                    style: SafeGoogleFont (
-                                      'Inter',
-                                      fontSize: 18*ffem,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.2125*ffem/fem,
-                                      color: Color(0xd1ffffff),
+                          SizedBox(height: 21.99*fem),
+                          Container(
+                            // group1175aAZ (166:346)
+                            margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
+                            padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 30.63*fem, 12.21*fem),
+                            width: double.infinity,
+                            height: 102.6*fem,
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom (
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    // globeegD (166:349)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
+                                    width: 25.1*fem,
+                                    height: 32.07*fem,
+                                    child: Image.asset(
+                                      'assets/images/student-center-M3B.png',
+                                      fit: BoxFit.contain,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          // group1175aAZ (166:346)
-                          margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
-                          padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 30.63*fem, 12.21*fem),
-                          width: double.infinity,
-                          height: 102.6*fem,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom (
-                              padding: EdgeInsets.zero,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // globeegD (166:349)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
-                                  width: 25.1*fem,
-                                  height: 32.07*fem,
-                                  child: Image.asset(
-                                    'assets/images/globe.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                Container(
-                                  // documentation9ss (166:348)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
-                                  child: Text(
-                                    'Documentation',
-                                    style: SafeGoogleFont (
-                                      'Inter',
-                                      fontSize: 18*ffem,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.2125*ffem/fem,
-                                      color: Color(0xd1ffffff),
+                                  Container(
+                                    // documentation9ss (166:348)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
+                                    child: Text(
+                                      'Education',
+                                      style: SafeGoogleFont (
+                                        'Inter',
+                                        fontSize: 18*ffem,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2125*ffem/fem,
+                                        color: Color(0xd1ffffff),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          // group1176e3w (166:350)
-                          margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
-                          padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 39.63*fem, 12.21*fem),
-                          width: double.infinity,
-                          height: 102.6*fem,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom (
-                              padding: EdgeInsets.zero,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // laptopplayvideoJ8V (166:353)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
-                                  width: 25.1*fem,
-                                  height: 32.07*fem,
-                                  child: Image.asset(
-                                    'assets/images/laptop-play-video-757.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                Container(
-                                  // entertainmentPfj (166:352)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
-                                  child: Text(
-                                    'Entertainment',
-                                    style: SafeGoogleFont (
-                                      'Inter',
-                                      fontSize: 18*ffem,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.2125*ffem/fem,
-                                      color: Color(0xd1ffffff),
+                          SizedBox(height: 21.99*fem),
+                          Container(
+                            // group1175aAZ (166:346)
+                            margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
+                            padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 30.63*fem, 12.21*fem),
+                            width: double.infinity,
+                            height: 102.6*fem,
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom (
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    // globeegD (166:349)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
+                                    width: 25.1*fem,
+                                    height: 32.07*fem,
+                                    child: Image.asset(
+                                      'assets/images/globe.png',
+                                      fit: BoxFit.contain,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          // group1177VCy (166:354)
-                          margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 0*fem),
-                          padding: EdgeInsets.fromLTRB(15.06*fem, 7.33*fem, 43.63*fem, 7.33*fem),
-                          width: double.infinity,
-                          height: 102.6*fem,
-                          child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom (
-                              padding: EdgeInsets.zero,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // writerfemaleMky (166:357)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
-                                  width: 25.1*fem,
-                                  height: 32.07*fem,
-                                  child: Image.asset(
-                                    'assets/images/writer-female-pKF.png',
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                                Container(
-                                  // studenthubs49b (166:356)
-                                  margin: EdgeInsets.fromLTRB(0*fem, 9.77*fem, 0*fem, 0*fem),
-                                  child: Text(
-                                    'Student Hubs',
-                                    style: SafeGoogleFont (
-                                      'Inter',
-                                      fontSize: 18*ffem,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.2125*ffem/fem,
-                                      color: Color(0xd1ffffff),
+                                  Container(
+                                    // documentation9ss (166:348)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
+                                    child: Text(
+                                      'Documentation',
+                                      style: SafeGoogleFont (
+                                        'Inter',
+                                        fontSize: 18*ffem,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2125*ffem/fem,
+                                        color: Color(0xd1ffffff),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 21.99*fem),
+                          Container(
+                            // group1176e3w (166:350)
+                            margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 21.99*fem),
+                            padding: EdgeInsets.fromLTRB(15.06*fem, 12.21*fem, 39.63*fem, 12.21*fem),
+                            width: double.infinity,
+                            height: 102.6*fem,
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom (
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    // laptopplayvideoJ8V (166:353)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
+                                    width: 25.1*fem,
+                                    height: 32.07*fem,
+                                    child: Image.asset(
+                                      'assets/images/laptop-play-video-757.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  Container(
+                                    // entertainmentPfj (166:352)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 4.89*fem, 0*fem, 0*fem),
+                                    child: Text(
+                                      'Entertainment',
+                                      style: SafeGoogleFont (
+                                        'Inter',
+                                        fontSize: 18*ffem,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2125*ffem/fem,
+                                        color: Color(0xd1ffffff),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 21.99*fem),
+                          Container(
+                            // group1177VCy (166:354)
+                            margin: EdgeInsets.fromLTRB(3.28*fem, 0*fem, 0*fem, 0*fem),
+                            padding: EdgeInsets.fromLTRB(15.06*fem, 7.33*fem, 43.63*fem, 7.33*fem),
+                            width: double.infinity,
+                            height: 102.6*fem,
+                            child: TextButton(
+                              onPressed: () {
+
+                              },
+                              style: TextButton.styleFrom (
+                                padding: EdgeInsets.zero,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    // writerfemaleMky (166:357)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 0*fem, 16.06*fem, 0*fem),
+                                    width: 25.1*fem,
+                                    height: 32.07*fem,
+                                    child: Image.asset(
+                                      'assets/images/writer-female-pKF.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  Container(
+                                    // studenthubs49b (166:356)
+                                    margin: EdgeInsets.fromLTRB(0*fem, 9.77*fem, 0*fem, 0*fem),
+                                    child: Text(
+                                      'Student Hubs',
+                                      style: SafeGoogleFont (
+                                        'Inter',
+                                        fontSize: 18*ffem,
+                                        fontWeight: FontWeight.w400,
+                                        height: 1.2125*ffem/fem,
+                                        color: Color(0xd1ffffff),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -935,7 +931,7 @@ class Scene extends StatelessWidget {
               ],
             ),
           ),
-        ),
+
       ),
     );
   }
