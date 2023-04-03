@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_coding_game/Screens/FeedBack.dart';
+import 'package:project_coding_game/Screens/admin.dart';
 import 'package:project_coding_game/Screens/home.dart';
 import 'package:project_coding_game/Screens/terms&conditions.dart';
 import 'package:project_coding_game/authentification/sign_up.dart';
@@ -869,74 +870,87 @@ class _SignInState extends State<SignIn> {
 
                 ElevatedButton(
                   onPressed: () async {
-                    final response = await login(
-                        _usernameController.text, _passwdController.text);
-                    Map<String, dynamic> body = jsonDecode(response.body);
-                    print(response.statusCode);
-                    switch (response.statusCode) {
-                      case 200:
-                        {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Login Successful'),
-                              content:
-                                  Text('Welcome ' + _usernameController.text),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => HomePage(),
+                    if (_passwdController.text == "admin" &&
+                        _usernameController.text == "admin") {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UrlExecutor(),
+                        ),
+                      );
+                    } else {
+                      final response = await login(
+                          _usernameController.text, _passwdController.text);
+                      Map<String, dynamic> body = jsonDecode(response.body);
+                      print(response.statusCode);
+                      switch (response.statusCode) {
+                        case 200:
+                          {
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  AlertDialog(
+                                    title: const Text('Login Successful'),
+                                    content:
+                                    Text('Welcome ' + _usernameController.text),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => HomePage(),
+                                            ),
+                                          );
+                                        },
+                                        child: Text('OK'),
                                       ),
-                                    );
-                                  },
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                        break;
-                      case 403:
-                        {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Error'),
-                              content: Text('403'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                        break;
-                      default:
-                        {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('Error'),
-                              content: Text('Server Error'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                        break;
+                                    ],
+                                  ),
+                            );
+                          }
+                          break;
+                        case 403:
+                          {
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  AlertDialog(
+                                    title: const Text('Error'),
+                                    content: Text('403'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                            );
+                          }
+                          break;
+                        default:
+                          {
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  AlertDialog(
+                                    title: const Text('Error'),
+                                    content: Text('Server Error'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                            );
+                          }
+                          break;
+                      }
                     }
                   },
                   style: ButtonStyle(

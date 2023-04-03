@@ -10,6 +10,8 @@ import 'package:project_coding_game/Screens/terms&conditions.dart';
 import 'package:project_coding_game/authentification/sign_in.dart';
 import 'package:project_coding_game/authentification/sign_up.dart';
 
+import 'Screens/admin.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             //  primarySwatch: Colors.blue,
             ),
-        home: QuizScreen());
+        home: SignIn());
   }
 }
 
