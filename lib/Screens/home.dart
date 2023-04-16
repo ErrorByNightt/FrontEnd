@@ -7,6 +7,8 @@ import 'package:project_coding_game/Games/Entrainement.dart';
 import 'package:project_coding_game/Games/game_home.dart';
 import 'package:project_coding_game/Screens/AI.dart';
 import 'package:project_coding_game/Screens/AccueilPage.dart';
+import 'package:project_coding_game/Screens/Blog_home.dart';
+import 'package:project_coding_game/Screens/Classement.dart';
 import 'package:project_coding_game/Screens/courses.dart';
 import 'package:project_coding_game/Screens/footer.dart';
 import 'package:project_coding_game/Screens/profile.dart';
@@ -19,6 +21,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
@@ -77,7 +81,46 @@ class HomePage extends StatelessWidget {
                     shadowColor: MaterialStateProperty.all(
                         Color.fromARGB(19, 207, 123, 123)),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlogHome(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      // ignore: prefer_const_constructors
+                      Icon(Feather.book, size: 20),
+                      SizedBox(width: 5),
+                      // ignore: prefer_const_constructors
+                      Text(
+                        'Blog',
+                        style: const TextStyle(fontSize: 12, letterSpacing: 1),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.transparent),
+                    shadowColor: MaterialStateProperty.all(
+                        Color.fromARGB(19, 238, 155, 155)),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => classement(),
+                      ),
+                    );
+                  },
                   child: Row(
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [

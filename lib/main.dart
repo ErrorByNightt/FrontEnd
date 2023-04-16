@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project_coding_game/Games/game_home.dart';
 import 'package:project_coding_game/Games/hangman.dart';
+import 'package:project_coding_game/Games/testing-game_room.dart';
 import 'package:project_coding_game/Screens/Blog.dart';
+import 'package:project_coding_game/Screens/Blog/addBlog.dart';
 import 'package:project_coding_game/Screens/Classement.dart';
 import 'package:project_coding_game/Screens/Coding.dart';
 import 'package:project_coding_game/Screens/Quiz.dart';
@@ -10,9 +12,13 @@ import 'package:project_coding_game/Screens/home.dart';
 import 'package:project_coding_game/Screens/profile.dart';
 import 'package:project_coding_game/Screens/rooms/create_room.dart';
 import 'package:project_coding_game/Screens/rooms/join_room.dart';
+import 'package:project_coding_game/Screens/rooms/socket_io.dart';
 import 'package:project_coding_game/Screens/terms&conditions.dart';
 import 'package:project_coding_game/authentification/sign_in.dart';
 import 'package:project_coding_game/authentification/sign_up.dart';
+import 'package:project_coding_game/provider/room_data_provider.dart';
+import 'package:project_coding_game/resources/socket_client.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,17 +30,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'CodeNinja',
-        theme: ThemeData(
-            //  primarySwatch: Colors.blue,
-            ),
-        routes: {
-          JoinRoom.routeName: (context) => const JoinRoom(),
-          CreateRoom.routeName: (context) => const CreateRoom(),
-        },
-        home: Blog());
+    return ChangeNotifierProvider(
+      create: (context) => RoomDataProvider(),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'CodeNinja',
+          theme: ThemeData(
+              //  primarySwatch: Colors.blue,
+              ),
+          routes: {
+            JoinRoom.routeName: (context) => const JoinRoom(),
+            CreateRoom.routeName: (context) => const CreateRoom(),
+            Hangman.routeName: (context) => const Hangman(),
+            GameScreen.routeName: (context) => const GameScreen()
+          },
+          home: HomePage()),
+    );
   }
 }
 

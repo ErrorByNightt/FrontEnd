@@ -1,126 +1,110 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:project_coding_game/Components/BlogCard.dart';
-import 'package:project_coding_game/Games/game_home.dart';
-import 'package:project_coding_game/NetworkHandler.dart';
-import 'package:project_coding_game/Screens/Blog.dart';
+import 'package:project_coding_game/Components/Custom_button.dart';
 import 'package:project_coding_game/Components/Url.dart';
-import 'package:project_coding_game/Screens/Blog/Blogs.dart';
+import 'package:project_coding_game/Components/cell.dart';
+import 'package:project_coding_game/Games/game_home.dart';
 import 'package:project_coding_game/Screens/courses.dart';
 import 'package:project_coding_game/Screens/profile.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:project_coding_game/Screens/rooms/create_room.dart';
+import 'package:project_coding_game/Screens/rooms/join_room.dart';
 import 'package:project_coding_game/models/BlogModel.dart';
-import 'package:project_coding_game/models/SuperModel.dart';
 import 'package:project_coding_game/models/addBlogModel.dart';
+import 'package:project_coding_game/responsive/responsive.dart';
 import 'package:logger/logger.dart';
 
-import '../../Components/GridCellBlog.dart';
-
-class AddBlog extends StatefulWidget {
-  const AddBlog({super.key});
+class BlogHome extends StatefulWidget {
+  static String routeName = '/BlogHome';
+  const BlogHome({super.key});
 
   @override
-  State<AddBlog> createState() => _AddBlogState();
+  State<BlogHome> createState() => _BlogHomeState();
 }
 
-class _AddBlogState extends State<AddBlog> {
-  List<AddBlogModel> blogs = [];
-  SuperModel superModel = SuperModel(data: []);
-
-  var log = Logger();
-
-  /*Future getBlogs() async {
-    final url = await http.get(Uri.parse('http://localhost:5000/blog/getALL'));
-
-    if (url.statusCode == 200 || url.statusCode == 201) {
-      final response = await http.get(Uri.parse(url as String));
-
-      var responseData = json.decode(response.body);
-      List<AddBlogModel> blogs = [];
-      for (var singleBlog in responseData) {
-        AddBlogModel blog = AddBlogModel(
-            coverImage: singleBlog['coverImage'],
-            count: singleBlog['like'],
-            share: singleBlog['share'],
-            comment: singleBlog['comment'],
-            id: singleBlog['_id'],
-            title: singleBlog['title'],
-            body: singleBlog['body'],
-            username: '');
-
-        //Adding user to the list.
-        blogs.add(blog);
-      }
-      // print('blogs');
-      return blogs;
-    }
-  }
-*/
-  Future<List<AddBlogModel>> getBlogs() async {
+class _BlogHomeState extends State<BlogHome> {
+  Future<List<AddBlogModel>> fetchData() async {
     final response =
         await http.get(Uri.parse('http://localhost:5000/blog/getALL'));
     if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body) as List;
-      return jsonData.map((blog) => AddBlogModel.fromJson(blog)).toList();
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => AddBlogModel.fromJson(json)).toList();
     } else {
-      throw Exception('Failed to load blogs');
+      throw Exception('Failed to load data');
     }
   }
 
-  // SuperModel superModel = SuperModel(data: []);
-  // NetworkHandler networkHandler = NetworkHandler();
+  //var
+  /*List<Blogg> games = [];
 
-/*  Future<List<AddBlogModel>> getRequest() async {
-    //replace your restFull API here.
-    String url = "http://localhost/blog/getALL";
-    final response = await http.get(Uri.parse(url));
+  late Future<bool> getb;
 
-    var responseData = json.decode(response.body);
+  //actions
+  // String url = "http://192.168.1.17:5000";
+  var log = Logger();
+  Future<bool> getBlog() async {
+    // url = formater(url);
+    String url = "http://10.0.2.2:5000";
 
-    //Creating a list to store input data;
-    List<AddBlogModel> blogs = [];
-    for (var singleBlog in responseData) {
-      AddBlogModel blog = AddBlogModel(
-          coverImage: singleBlog['coverImage'],
-          count: singleBlog['like'],
-          share: singleBlog['share'],
-          comment: singleBlog['comment'],
-          id: singleBlog['_id'],
-          title: singleBlog['title'],
-          body: singleBlog['body'],
-          username: '');
+    final response = await http.get(
+      Uri.http(url, '/blog/getALL'),
+      headers: {
+       
+        'Content-Type': 'application/json''
+      },
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      log.i(response.body);
 
-      //Adding user to the list.
-      blogs.add(blog);
+      return json.decode(response.body);
     }
-    // print('blogs');
-    return blogs;
+    log.i(response.body);
+    log.i(response.statusCode);
+    return true;
   }
 */
-  /*Future<List<AddBlogModel>> getRequest() async {
-    var data = await http.get("http://localhost/blog/getALL" as Uri);
-    var jsonData = json.decode(data.body) as List;
-    List<AddBlogModel> blogs = [];
-    // convert the json to a list of companies
-    blogs = jsonData
-        .map((company) => AddBlogModel.fromJson(company))
-        .toList(); // new line
-    print(blogs.length);
-    return blogs;
+  /* Future<bool> getGames() async {
+    //url
+    Uri fetchUri = Uri.parse("$BASE_URL/blog/getALL");
+    //Headers
+    Map<String, String> headers = {"Content-Type": "application/json"};
+    //request
+    await http.get(fetchUri, headers: headers).then((response) {
+      if (response.statusCode == 200) {
+        List<dynamic> jsonArray = json.decode(response.body);
+        for (var item in jsonArray) {
+          games.add(Blogg(
+              item['_id'],
+              item['coverImage'],
+              item['count'],
+              item['share'],
+              item['comment'],
+              item['title'],
+              item['body'],
+              item['username']));
+        }
+      }
+    }).onError((error, stackTrace) {
+      print("Internal error : ${error.toString()}");
+    });
+    return true;
+  }*/
+
+  //states
+  /* @override
+  void initState() {
+    super.initState();
+    getb = getBlog();
   }*/
 
   @override
-  void initState() {
-    super.initState();
-    blogs;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -189,7 +173,7 @@ class _AddBlogState extends State<AddBlog> {
                         SizedBox(width: 5),
                         // ignore: prefer_const_constructors
                         Text(
-                          'Classement',
+                          'BlogHome',
                           style:
                               const TextStyle(fontSize: 12, letterSpacing: 1),
                         ),
@@ -396,144 +380,43 @@ class _AddBlogState extends State<AddBlog> {
               ],
             ),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: Image.asset(
-                            'assets/images/Inspiration is everywhere.png',
-                            width: 400.0,
-                            height: 250.0,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                          child: const Text(
-                            'You’re ready to ask a programming-related question and this form \n will help guide you through the process.\n'
-                            'Looking to ask a non-programming question?',
-                            style: TextStyle(
-                              fontFamily: 'Inika',
-                              fontSize: 20.0,
-                              letterSpacing: 2,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 50),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Blog()),
-                            );
-                          },
-                          style: ButtonStyle(
-                            fixedSize:
-                                MaterialStateProperty.all(const Size(200, 50)),
-                            backgroundColor: const MaterialStatePropertyAll(
-                                Color.fromARGB(255, 239, 150, 150)),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                          ),
-                          child: const Text(
-                            'Ask a Question',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                letterSpacing: 3),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(width: 20),
-                    Container(
-                      child: Image.asset(
-                        'assets/images/Post-pana.png',
-                        width: 500.0,
-                        height: 500.0,
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  child: const Text(
-                    ' Latest Blog  💭',
-                    style: TextStyle(
-                      fontFamily: 'Inika',
-                      fontSize: 50.0,
-                      letterSpacing: 5,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+          body: Column(
+            children: [
+              Container(
+                child: Text(
+                  '🏅LATEST BLOG 🏅',
+                  style: TextStyle(
+                    fontFamily: 'Inika',
+                    fontSize: 50.0,
+                    letterSpacing: 5,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 40),
-                Container(
-                  padding: EdgeInsets.all(16.0),
-                  child: FutureBuilder(
-                    future: getBlogs(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else {
-                        final userList = snapshot.data!;
-                        return ListView.builder(
-                          itemCount: userList.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(userList[index].title),
-                              //subtitle: Text(userList[index].email),
-                            );
-                          },
+              ),
+              FutureBuilder<List<AddBlogModel>>(
+                future: fetchData(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final data = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        final item = data[index];
+                        return ListTile(
+                          title: Text(item.title),
+                          // subtitle: Text('Age: ${item.age}'),
                         );
-                      }
-                    },
-                  ),
-                  /* FutureBuilder(
-                      future: getRequest(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (context, index) {
-                                return Text(
-                                    ' $index title: ${snapshot.data[index].title}');
-                              });
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
                       },
-                    )*/
-                ),
-
-                // Blogs(url: "/getALL")
-                /* blogs.length > 0
-                    //? Column(
-                        children: blogs
-                            .map((item) => BlogCard(
-                                addBlogModel: item,
-                                networkHandler: networkHandler))
-                            .toList(),
-                      )
-                    : const Center(
-                        child: Text("We don't have any Blog Yet"),
-                      )*/
-              ],
-            ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('${snapshot.error}');
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+              ),
+            ],
           ),
         ));
   }

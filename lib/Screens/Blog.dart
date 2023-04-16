@@ -1,18 +1,20 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:http/http.dart';
+import 'package:path/path.dart';
 import 'package:project_coding_game/Components/OverlayCard.dart';
 import 'package:project_coding_game/Games/game_home.dart';
+import 'package:project_coding_game/Screens/Blog/addBlog.dart';
 import 'package:project_coding_game/Screens/courses.dart';
 import 'package:project_coding_game/Screens/profile.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:project_coding_game/NetworkHandler.dart';
-import 'package:project_coding_game/models/addBlogModel.dart';
 
 class Blog extends StatefulWidget {
   Blog({super.key});
@@ -22,10 +24,29 @@ class Blog extends StatefulWidget {
 }
 
 class _BlogState extends State<Blog> {
+  static Future<http.Response> addBlog(String title, String body) async {
+    Uri BlogURI = Uri.parse("http://localhost:5000/blog/add");
+    final data = {"title": title, "body": body};
+    String params = jsonEncode(data);
+    http.Response response =
+        await http.post(BlogURI, body: params, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+    return response;
+  }
+
+  late String title;
+
+  //late String coverImage;
+
+  late String body;
+
   final _key1 = GlobalKey<FormState>();
   final _key2 = GlobalKey<FormState>();
 
   TextEditingController _title = TextEditingController();
+  //TextEditingController _imagee = TextEditingController();
+
   TextEditingController _body = TextEditingController();
   //ImagePicker _picker = ImagePicker();
   //late PickedFile _imageFile;
@@ -307,54 +328,42 @@ class _BlogState extends State<Blog> {
         ),
         body: SingleChildScrollView(
             child: Column(children: [
-          Row(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   margin: EdgeInsets.fromLTRB(20, 40, 0, 0),
                   child: Text(
-                    'HELLO COMMUNITY !',
+                    'Ask a Public Question !',
                     style: TextStyle(
                       fontFamily: 'Inika',
-                      fontSize: 30.0,
+                      fontSize: 50.0,
                       letterSpacing: 5,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                 ),
+                SizedBox(height: 50),
                 Container(
-                  margin: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                  margin: EdgeInsets.all(10),
                   child: Text(
-                    'SEND US YOUR THOUGHTs💭',
-                    style: TextStyle(
-                      fontFamily: 'Inika',
-                      fontSize: 40.0,
-                      letterSpacing: 5,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 15),
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Text(
-                    '“Not only are bloggers suckers for the remarkable,  so are the people who read blogs.”\n'
-                    'When you write remarkable content, \n you stay engaged and excited with your blog.\n Your readers follow suit.',
+                    'Be specific and imagine you’re asking a question to another person.',
                     style: TextStyle(
                       //fontFamily: 'Inika',
-                      fontSize: 13.0,
-                      color: Colors.white,
+                      fontSize: 10.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 207, 198, 198),
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                SizedBox(height: 10),
                 Form(
                   key: _key1,
                   child: SizedBox(
                       // <-- SEE HERE
-                      width: 300,
+                      width: 700,
                       child: TextFormField(
                         controller: _title,
                         validator: (value) {
@@ -368,19 +377,20 @@ class _BlogState extends State<Blog> {
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  width: 3,
                                   color: Color.fromARGB(255, 255, 255, 255)),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  width: 3, color: Color(0xffF02E65)),
+                                  color: Color.fromARGB(255, 120, 46, 240)),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 3,
                                   color: Color.fromARGB(255, 66, 125, 145)),
                             ),
-                            labelText: "Add Image and Title",
+                            labelText:
+                                "Add Image and Type catching attention title",
+                            labelStyle: TextStyle(color: Colors.grey.shade600),
                             prefix: IconButton(
                               icon: Icon(iconphoto, color: Colors.teal),
                               onPressed: uploadImage,
@@ -389,53 +399,70 @@ class _BlogState extends State<Blog> {
                       )),
                 ),
                 SizedBox(height: 10),
+                Container(
+                  margin: EdgeInsets.all(10),
+                  child: Text(
+                    'What are the details of your problem?',
+                    style: TextStyle(
+                      //fontFamily: 'Inika',
+                      fontSize: 10.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 207, 198, 198),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
                 Form(
                   key: _key2,
                   child: SizedBox(
                       // <-- SEE HERE
-                      width: 300,
+                      width: 700,
                       child: TextFormField(
                         controller: _body,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return "Body can't be empty";
+                            return "body can't be empty";
                           }
                           return null;
                         },
                         decoration: InputDecoration(
-                            // focusColor: Colors.white,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 3,
-                                  color: Color.fromARGB(255, 255, 255, 255)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 3, color: Color(0xffF02E65)),
-                            ),
-                            contentPadding: EdgeInsets.symmetric(vertical: 40),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  width: 3,
-                                  color: Color.fromARGB(255, 66, 125, 145)),
-                            ),
-                            labelText: "  Provide Body Your Blog"),
+                          // focusColor: Colors.white,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromARGB(255, 65, 46, 240)),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(vertical: 40),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 3,
+                                color: Color.fromARGB(255, 66, 125, 145)),
+                          ),
+                          labelText: " Introduce the problem",
+                          labelStyle: TextStyle(color: Colors.grey.shade600),
+                        ),
                         maxLines: null,
                       )),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () async {
-                    /*  if (imagevalue != null && _key1.currentState!.validate()) {
-                      AddBlogModel addBlogModel = AddBlogModel(
-                          body: _body.text, title: _title.text, coverImage: '');
-                      var response = await networkHandler.post(
-                          "/blog/Add", addBlogModel.toJson());
-                      print(response.body);
-                    }*/
+                    final response = await addBlog(_title.text, _body.text);
+
+                    Map<String, dynamic> body = jsonDecode(response.body);
+                    if (response.statusCode == 200 ||
+                        response.statusCode == 201) {
+                      Navigator.pushAndRemoveUntil(
+                          context as BuildContext,
+                          MaterialPageRoute(builder: (context) => AddBlog()),
+                          (route) => false);
+                    }
                   },
                   style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all(const Size(200, 50)),
+                    fixedSize: MaterialStateProperty.all(const Size(300, 50)),
                     backgroundColor: const MaterialStatePropertyAll(
                         Color.fromARGB(255, 239, 150, 150)),
                     shape: MaterialStateProperty.all(
@@ -473,48 +500,7 @@ class _BlogState extends State<Blog> {
                 )
               ],
             ),
-            Spacer(),
-            Container(
-              child: Image.asset(
-                'assets/images/Post-pana.png',
-                width: 500.0,
-                height: 500.0,
-              ),
-            )
           ]),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage("assets/images/code.jpg"),
-                height: 500,
-                width: 500,
-              ),
-              SizedBox(width: 30),
-              Image(
-                image: AssetImage("assets/images/code.jpg"),
-                height: 500,
-                width: 500,
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage("assets/images/code.jpg"),
-                height: 500,
-                width: 500,
-              ),
-              SizedBox(width: 30),
-              Image(
-                image: AssetImage("assets/images/code.jpg"),
-                height: 500,
-                width: 500,
-              )
-            ],
-          ),
         ])),
       ),
     );

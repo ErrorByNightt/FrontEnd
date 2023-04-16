@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:project_coding_game/Components/Custom_button.dart';
 import 'package:project_coding_game/Components/Custom_textfield.dart';
 import 'package:project_coding_game/Components/text.dart';
+import 'package:project_coding_game/resources/socket_methods.dart';
 import 'package:project_coding_game/responsive/responsive.dart';
 
 class JoinRoom extends StatefulWidget {
@@ -17,6 +16,15 @@ class JoinRoom extends StatefulWidget {
 class _JoinRoomState extends State<JoinRoom> {
   final TextEditingController _gameIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final SocketMethods _socketMethods = SocketMethods();
+
+  @override
+  void initState() {
+    super.initState();
+    _socketMethods.joinRoomSuccessListener(context);
+    _socketMethods.errorOccuredListener(context);
+    _socketMethods.updatePlayerState(context);
+  }
 
   @override
   void dispose() {
@@ -44,13 +52,15 @@ class _JoinRoomState extends State<JoinRoom> {
                     fontSize: 70),
                 SizedBox(height: size.height * 0.08),
                 CustomTextField(
-                    controller: _nameController,
-                    hintText: 'Enter your nickname'),
+                    controller: _nameController, hintText: 'Enter your name'),
                 SizedBox(height: size.height * 0.08),
                 CustomTextField(
                     controller: _gameIdController, hintText: 'Enter Game ID'),
                 SizedBox(height: size.height * 0.08),
-                CustomButton(onTap: () {}, text: 'Create')
+                CustomButton(
+                    onTap: () => _socketMethods.joinRoom(
+                        _nameController.text, _gameIdController.text),
+                    text: 'Join')
               ]),
         ),
       ),

@@ -11,6 +11,7 @@ class OverlayCard extends StatelessWidget {
   const OverlayCard({super.key, required this.imagevalue, required this.title});
   final Uint8List imagevalue;
   final String title;
+
 // final PickedFile imagefile;
 
   @override

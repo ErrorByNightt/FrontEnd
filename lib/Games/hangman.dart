@@ -4,8 +4,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:project_coding_game/Components/letter.dart';
+import 'package:project_coding_game/provider/room_data_provider.dart';
+import 'package:provider/provider.dart';
 
 class Hangman extends StatefulWidget {
+  static String routeName = '/hangman';
   const Hangman({super.key});
 
   @override

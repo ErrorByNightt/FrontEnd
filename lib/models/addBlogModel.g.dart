@@ -8,8 +8,8 @@ part of 'addBlogModel.dart';
 
 AddBlogModel _$AddBlogModelFromJson(Map<String, dynamic> json) => AddBlogModel(
       coverImage: json['coverImage'] as String,
-      // count: json['count'] as int,
-      // share: json['share'] as int,
+      count: json['count'] as int,
+      share: json['share'] as int,
       comment: json['comment'] as int,
       id: json['_id'] as String,
       username: json['username'] as String,
