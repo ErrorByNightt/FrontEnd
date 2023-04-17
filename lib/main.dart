@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project_coding_game/Games/game_home.dart';
 import 'package:project_coding_game/Games/hangman.dart';
+import 'package:project_coding_game/Screens/Blog.dart';
+import 'package:project_coding_game/Screens/Blog/addBlog.dart';
+import 'package:project_coding_game/Screens/Classement.dart';
 import 'package:project_coding_game/Screens/Coding.dart';
 import 'package:project_coding_game/Screens/Quiz.dart';
 import 'package:project_coding_game/Screens/courses.dart';
@@ -9,26 +12,46 @@ import 'package:project_coding_game/Screens/profile.dart';
 import 'package:project_coding_game/Screens/terms&conditions.dart';
 import 'package:project_coding_game/authentification/sign_in.dart';
 import 'package:project_coding_game/authentification/sign_up.dart';
+import 'package:connectivity/connectivity.dart';
 
+import 'Games/testing-game_room.dart';
 import 'Screens/admin.dart';
+import 'Screens/chalenge-page.dart';
+import 'Screens/level-page.dart';
+import 'Screens/rooms/create_room.dart';
+import 'Screens/rooms/join_room.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-            //  primarySwatch: Colors.blue,
-            ),
-        home: SignIn());
+          //  primarySwatch: Colors.blue,
+        ),
+        routes: {
+          JoinRoom.routeName: (context) => const JoinRoom(),
+          CreateRoom.routeName: (context) => const CreateRoom(),
+          //Hangman.routeName: (context) => const Hangman(),
+          GameScreen.routeName: (context) => const GameScreen()
+        },
+        //home: coding(userId: '6435dfa7b98f0ee65b3f870d',));
+    home: classement());
   }
 }
 
@@ -37,14 +60,15 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
-        colors: [Color(0xff951208), Color(0xff250402)],
-        begin: Alignment.centerLeft,
-        end: Alignment.centerRight,
-      )),
+            colors: [Color(0xff951208), Color(0xff250402)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -81,7 +105,7 @@ class SplashScreen extends StatelessWidget {
           child: Column(
             children: [
               Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     // ignore: avoid_unnecessary_containers
                     Image.asset(
@@ -95,7 +119,7 @@ class SplashScreen extends StatelessWidget {
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.transparent),
+                          MaterialStateProperty.all(Colors.transparent),
                           shadowColor: MaterialStateProperty.all(
                               Color.fromARGB(255, 238, 172, 172)),
                         ),
@@ -118,7 +142,7 @@ class SplashScreen extends StatelessWidget {
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.transparent),
+                          MaterialStateProperty.all(Colors.transparent),
                           shadowColor: MaterialStateProperty.all(
                               Color.fromARGB(19, 238, 155, 155)),
                         ),
@@ -178,7 +202,7 @@ class SplashScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(),
+                      builder: (context) => HomePage(userId: '',),
                     ),
                   );
                 },
@@ -197,7 +221,7 @@ class SplashScreen extends StatelessWidget {
               /*Container(
                   margin: EdgeInsets.only(right: 1000),
                   child: Image.asset('assets/images/chichbich.png',
-            
+
                       width: 2000, height: 200)),*/
               const SizedBox(height: 70),
               Row(

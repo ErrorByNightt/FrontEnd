@@ -408,12 +408,12 @@ class _SIgnUpState extends State<SIgnUp> {
                           print(user.displayName);
                           print(user.email);
                           {
-                            Navigator.push(
+                            /*Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomePage(),
+                                builder: (context) => HomePage(userId: '',),
                               ),
-                            );
+                            );*/
                           }
                         } else {
                           print("error");

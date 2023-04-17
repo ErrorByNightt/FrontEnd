@@ -8,15 +8,20 @@ import 'package:project_coding_game/Screens/admin.dart';
 import 'package:project_coding_game/Screens/home.dart';
 import 'package:project_coding_game/Screens/terms&conditions.dart';
 import 'package:project_coding_game/authentification/sign_up.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
+
+
 
   @override
   State<SignIn> createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
+
+
   TextEditingController pin1Controller = TextEditingController();
   TextEditingController pin2Controller = TextEditingController();
   TextEditingController pin3Controller = TextEditingController();
@@ -26,6 +31,7 @@ class _SignInState extends State<SignIn> {
   late FocusNode pin2FocusNode;
   late FocusNode pin3FocusNode;
   late FocusNode pin4FocusNode;
+  late Map<String, dynamic> _userData = {};
 
   @override
   void initState() {
@@ -50,7 +56,7 @@ class _SignInState extends State<SignIn> {
     final data = {"mail": username, "password": password};
     String params = jsonEncode(data);
     http.Response response =
-        await http.post(LoginURI, body: params, headers: <String, String>{
+    await http.post(LoginURI, body: params, headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     });
     return response;
@@ -58,11 +64,11 @@ class _SignInState extends State<SignIn> {
 
   static Future<http.Response> SendMail(String email) async {
     Uri SendMailURI =
-        Uri.parse("http://localhost:9095/user/send-confirmation-email");
+    Uri.parse("http://localhost:9095/user/send-confirmation-email");
     final data = {"email": email};
     String params = jsonEncode(data);
     http.Response response =
-        await http.post(SendMailURI, body: params, headers: <String, String>{
+    await http.post(SendMailURI, body: params, headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     });
     return response;
@@ -91,10 +97,10 @@ class _SignInState extends State<SignIn> {
     return Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-          colors: [Color(0xff951208), Color(0xff250402)],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        )),
+              colors: [Color(0xff951208), Color(0xff250402)],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            )),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -131,7 +137,7 @@ class _SignInState extends State<SignIn> {
             child: Column(
               children: [
                 Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       // ignore: avoid_unnecessary_containers
                       Image.asset(
@@ -145,7 +151,7 @@ class _SignInState extends State<SignIn> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                            MaterialStateProperty.all(Colors.transparent),
                             shadowColor: MaterialStateProperty.all(
                                 Color.fromARGB(255, 238, 172, 172)),
                           ),
@@ -161,7 +167,7 @@ class _SignInState extends State<SignIn> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                            MaterialStateProperty.all(Colors.transparent),
                             shadowColor: MaterialStateProperty.all(
                                 Color.fromARGB(19, 238, 155, 155)),
                           ),
@@ -177,7 +183,7 @@ class _SignInState extends State<SignIn> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                            MaterialStateProperty.all(Colors.transparent),
                             shadowColor: MaterialStateProperty.all(
                                 Color.fromARGB(19, 238, 155, 155)),
                           ),
@@ -200,7 +206,7 @@ class _SignInState extends State<SignIn> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
+                            MaterialStateProperty.all(Colors.transparent),
                             shadowColor: MaterialStateProperty.all(
                                 Color.fromARGB(19, 238, 155, 155)),
                           ),
@@ -351,7 +357,7 @@ class _SignInState extends State<SignIn> {
                                   const Text(
                                     'Enter your email address to receive a password reset link.',
                                     style:
-                                        TextStyle(fontSize: kDefaultFontSize),
+                                    TextStyle(fontSize: kDefaultFontSize),
                                   ),
                                   SizedBox(height: kDefaultMargin),
                                   TextField(
@@ -423,10 +429,10 @@ class _SignInState extends State<SignIn> {
                                                               fontSize: 30,
                                                               color: Color
                                                                   .fromARGB(
-                                                                      255,
-                                                                      223,
-                                                                      91,
-                                                                      91),
+                                                                  255,
+                                                                  223,
+                                                                  91,
+                                                                  91),
                                                             ),
                                                           ),
                                                         ],
@@ -435,31 +441,31 @@ class _SignInState extends State<SignIn> {
                                                     content: Container(
                                                       child: Row(
                                                         mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
                                                         children: [
                                                           SizedBox(
                                                             width: 50,
                                                             child: TextField(
                                                               controller:
-                                                                  pin1Controller,
+                                                              pin1Controller,
                                                               focusNode:
-                                                                  pin1FocusNode,
+                                                              pin1FocusNode,
                                                               keyboardType:
-                                                                  TextInputType
-                                                                      .number,
+                                                              TextInputType
+                                                                  .number,
                                                               textAlign:
-                                                                  TextAlign
-                                                                      .center,
+                                                              TextAlign
+                                                                  .center,
                                                               decoration:
-                                                                  InputDecoration(
+                                                              InputDecoration(
                                                                 border:
-                                                                    OutlineInputBorder(),
+                                                                OutlineInputBorder(),
                                                               ),
                                                               onChanged:
                                                                   (value) {
                                                                 if (value
-                                                                        .length ==
+                                                                    .length ==
                                                                     1) {
                                                                   pin2FocusNode
                                                                       .requestFocus();
@@ -471,24 +477,24 @@ class _SignInState extends State<SignIn> {
                                                             width: 50,
                                                             child: TextField(
                                                               controller:
-                                                                  pin2Controller,
+                                                              pin2Controller,
                                                               focusNode:
-                                                                  pin2FocusNode,
+                                                              pin2FocusNode,
                                                               keyboardType:
-                                                                  TextInputType
-                                                                      .number,
+                                                              TextInputType
+                                                                  .number,
                                                               textAlign:
-                                                                  TextAlign
-                                                                      .center,
+                                                              TextAlign
+                                                                  .center,
                                                               decoration:
-                                                                  InputDecoration(
+                                                              InputDecoration(
                                                                 border:
-                                                                    OutlineInputBorder(),
+                                                                OutlineInputBorder(),
                                                               ),
                                                               onChanged:
                                                                   (value) {
                                                                 if (value
-                                                                        .length ==
+                                                                    .length ==
                                                                     1) {
                                                                   pin3FocusNode
                                                                       .requestFocus();
@@ -506,24 +512,24 @@ class _SignInState extends State<SignIn> {
                                                             width: 50,
                                                             child: TextField(
                                                               controller:
-                                                                  pin3Controller,
+                                                              pin3Controller,
                                                               focusNode:
-                                                                  pin3FocusNode,
+                                                              pin3FocusNode,
                                                               keyboardType:
-                                                                  TextInputType
-                                                                      .number,
+                                                              TextInputType
+                                                                  .number,
                                                               textAlign:
-                                                                  TextAlign
-                                                                      .center,
+                                                              TextAlign
+                                                                  .center,
                                                               decoration:
-                                                                  InputDecoration(
+                                                              InputDecoration(
                                                                 border:
-                                                                    OutlineInputBorder(),
+                                                                OutlineInputBorder(),
                                                               ),
                                                               onChanged:
                                                                   (value) {
                                                                 if (value
-                                                                        .length ==
+                                                                    .length ==
                                                                     1) {
                                                                   pin4FocusNode
                                                                       .requestFocus();
@@ -541,19 +547,19 @@ class _SignInState extends State<SignIn> {
                                                             width: 50,
                                                             child: TextField(
                                                               controller:
-                                                                  pin4Controller,
+                                                              pin4Controller,
                                                               focusNode:
-                                                                  pin4FocusNode,
+                                                              pin4FocusNode,
                                                               keyboardType:
-                                                                  TextInputType
-                                                                      .number,
+                                                              TextInputType
+                                                                  .number,
                                                               textAlign:
-                                                                  TextAlign
-                                                                      .center,
+                                                              TextAlign
+                                                                  .center,
                                                               decoration:
-                                                                  InputDecoration(
+                                                              InputDecoration(
                                                                 border:
-                                                                    OutlineInputBorder(),
+                                                                OutlineInputBorder(),
                                                               ),
                                                               onChanged:
                                                                   (value) {
@@ -573,33 +579,33 @@ class _SignInState extends State<SignIn> {
                                                     actions: [
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsets
-                                                                .all(20.0),
+                                                        const EdgeInsets
+                                                            .all(20.0),
                                                         child: Row(
                                                           mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
+                                                          MainAxisAlignment
+                                                              .center,
                                                           children: [
                                                             ElevatedButton(
                                                               onPressed: () {
                                                                 Navigator.of(
-                                                                        context)
+                                                                    context)
                                                                     .pop();
                                                                 showDialog(
                                                                   context:
-                                                                      context,
+                                                                  context,
                                                                   builder:
                                                                       (context) {
                                                                     return Padding(
                                                                       padding: const EdgeInsets
-                                                                              .all(
+                                                                          .all(
                                                                           40.0),
                                                                       child:
-                                                                          AlertDialog(
+                                                                      AlertDialog(
                                                                         title:
-                                                                            Center(
+                                                                        Center(
                                                                           child:
-                                                                              Stack(
+                                                                          Stack(
                                                                             // ignore: prefer_const_literals_to_create_immutables
                                                                             children: <Widget>[
                                                                               // Stroked text as border.
@@ -626,11 +632,11 @@ class _SignInState extends State<SignIn> {
                                                                           ),
                                                                         ),
                                                                         content:
-                                                                            Container(
+                                                                        Container(
                                                                           child:
-                                                                              Column(
+                                                                          Column(
                                                                             mainAxisSize:
-                                                                                MainAxisSize.min,
+                                                                            MainAxisSize.min,
                                                                             children: [
                                                                               Row(
                                                                                 children: [
@@ -677,9 +683,9 @@ class _SignInState extends State<SignIn> {
                                                                         actions: [
                                                                           Padding(
                                                                             padding:
-                                                                                const EdgeInsets.all(20.0),
+                                                                            const EdgeInsets.all(20.0),
                                                                             child:
-                                                                                Row(
+                                                                            Row(
                                                                               mainAxisAlignment: MainAxisAlignment.center,
                                                                               children: [
                                                                                 SizedBox(
@@ -733,14 +739,14 @@ class _SignInState extends State<SignIn> {
                                                                         .white),
                                                               ),
                                                               style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
+                                                              ElevatedButton
+                                                                  .styleFrom(
                                                                 primary: Color
                                                                     .fromARGB(
-                                                                        255,
-                                                                        194,
-                                                                        67,
-                                                                        67), // couleur de fond du bouton
+                                                                    255,
+                                                                    194,
+                                                                    67,
+                                                                    67), // couleur de fond du bouton
                                                                 onPrimary: Colors
                                                                     .white, // couleur du texte du bouton
                                                               ),
@@ -759,10 +765,12 @@ class _SignInState extends State<SignIn> {
                                                 _emailController.text);
 
                                             Map<String, dynamic> body =
-                                                jsonDecode(response.body);
+                                            jsonDecode(response.body);
                                             switch (response.statusCode) {
                                               case 200:
-                                                {}
+                                                {
+
+                                                }
                                                 break;
                                               case 403:
                                                 {
@@ -770,20 +778,20 @@ class _SignInState extends State<SignIn> {
                                                     context: context,
                                                     builder: (context) =>
                                                         AlertDialog(
-                                                      title:
+                                                          title:
                                                           const Text('Error'),
-                                                      content: Text('403'),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
+                                                          content: Text('403'),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
                                                                     context)
-                                                                .pop();
-                                                          },
-                                                          child: Text('OK'),
+                                                                    .pop();
+                                                              },
+                                                              child: Text('OK'),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
-                                                    ),
                                                   );
                                                 }
                                                 break;
@@ -793,21 +801,21 @@ class _SignInState extends State<SignIn> {
                                                     context: context,
                                                     builder: (context) =>
                                                         AlertDialog(
-                                                      title:
+                                                          title:
                                                           const Text('Error'),
-                                                      content:
+                                                          content:
                                                           Text('Server Error'),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
                                                                     context)
-                                                                .pop();
-                                                          },
-                                                          child: Text('OK'),
+                                                                    .pop();
+                                                              },
+                                                              child: Text('OK'),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
-                                                    ),
                                                   );
                                                 }
                                                 break;
@@ -841,7 +849,7 @@ class _SignInState extends State<SignIn> {
                                         ),
                                         style: ElevatedButton.styleFrom(
                                           primary: Colors.grey[
-                                              200], // couleur de fond du bouton
+                                          200], // couleur de fond du bouton
                                           onPrimary: Colors
                                               .white, // couleur du texte du bouton
                                         ),
@@ -867,90 +875,80 @@ class _SignInState extends State<SignIn> {
                 ),
                 const SizedBox(height: 20),
                 // bouton get started
-
                 ElevatedButton(
                   onPressed: () async {
-                    if (_passwdController.text == "admin" &&
-                        _usernameController.text == "admin") {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UrlExecutor(),
-                        ),
-                      );
-                    } else {
-                      final response = await login(
-                          _usernameController.text, _passwdController.text);
-                      Map<String, dynamic> body = jsonDecode(response.body);
-                      print(response.statusCode);
-                      switch (response.statusCode) {
-                        case 200:
-                          {
-                            showDialog(
-                              context: context,
-                              builder: (context) =>
-                                  AlertDialog(
-                                    title: const Text('Login Successful'),
-                                    content:
-                                    Text('Welcome ' + _usernameController.text),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => HomePage(),
-                                            ),
-                                          );
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  ),
+                    final response = await login(_usernameController.text, _passwdController.text);
+                    Map<String, dynamic> body = jsonDecode(response.body);
+                    final  userId = body.containsKey('user') ? body['user']['_id'] : null;
+                    switch (response.statusCode) {
+                      case 200:
+                        {
+                          print(response.statusCode);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>  HomePage(userId: userId, userData: {},),
+                            ),
+                          );
+                        }
+                        break;
+
+                      case 403:
+                        {
+                          print(response.statusCode);
+                          if (response.body.contains('Account deactivated')) {
+                            var alertStyle = AlertStyle(
+                              // Propriétés de l'alerte
                             );
-                          }
-                          break;
-                        case 403:
-                          {
-                            showDialog(
+
+                            Alert(
                               context: context,
-                              builder: (context) =>
-                                  AlertDialog(
-                                    title: const Text('Error'),
-                                    content: Text('403'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  ),
-                            );
+                              title: "DESACTIVATED",
+                              desc: "Flutter is better with RFlutter Alert.",
+                              image: Image.asset(
+                                "images/gifgif.gif",
+                                height: 200, // Spécifie la hauteur de l'image
+                                width: 500, // Spécifie la largeur de l'image
+                                fit: BoxFit.contain, // Spécifie comment l'image doit être ajustée à la boîte
+                              ),
+                              //  imageHeight: 100, // Spécifie la hauteur de l'image en pixels
+                            ).show();
+
+
                           }
-                          break;
-                        default:
-                          {
-                            showDialog(
+                          else if (response.body.contains('Wrong username or password')) {
+                            Alert(
                               context: context,
-                              builder: (context) =>
-                                  AlertDialog(
-                                    title: const Text('Error'),
-                                    content: Text('Server Error'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  ),
-                            );
+                              title: "WRONG",
+                              desc: "WRONG USER NAME OR PASSWORD",
+                              image: Image.asset(
+                                "images/gifgif.gif",
+                                height: 200, // Spécifie la hauteur de l'image
+                                width: 500, // Spécifie la largeur de l'image
+                                fit: BoxFit.contain, // Spécifie comment l'image doit être ajustée à la boîte
+                              ),
+                              //  imageHeight: 100, // Spécifie la hauteur de l'image en pixels
+                            ).show();
+                          } else if (response.body.contains('User banned for 1 minutes')) {
+                            Alert(
+                              context: context,
+                              title: "ERROR",
+                              desc: "USER BANNED",
+                              image: Image.asset(
+                                "images/gifgif.gif",
+                                height: 200, // Spécifie la hauteur de l'image
+                                width: 500, // Spécifie la largeur de l'image
+                                fit: BoxFit.contain, // Spécifie comment l'image doit être ajustée à la boîte
+                              ),
+                              //  imageHeight: 100, // Spécifie la hauteur de l'image en pixels
+                            ).show();
                           }
-                          break;
-                      }
+
+                        }
+                        break;
+                      default:
+                      // Code pour le cas où il y a une erreur autre que 403
+                        break;
                     }
                   },
                   style: ButtonStyle(
@@ -965,6 +963,13 @@ class _SignInState extends State<SignIn> {
                   ),
                   child: const Text('GET STARTED'),
                 ),
+
+
+
+
+
+
+
                 const SizedBox(height: 60),
 
                 Row(

@@ -27,6 +27,22 @@ class _QuizScreenState extends State<QuizScreen> {
     return object;
   }
 
+
+  static Future<http.Response> GetHint(String question) async {
+    Uri GetHintURI = Uri.parse("http://localhost:9095/ai/getHINT");
+    final data = {"question": question};
+    String params = jsonEncode(data);
+    http.Response response =
+    await http.post (GetHintURI, body: params, headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    });
+    print(response);
+    return response;
+  }
+
+
+
+
   static Future<http.Response> SolveQCM(String id, String UserAttepmt) async {
     Uri solveQCMURI = Uri.parse("http://localhost:9095/ai/solveQCM");
     final data = {"id": id, "userAttempt": UserAttepmt};
@@ -62,7 +78,7 @@ class _QuizScreenState extends State<QuizScreen> {
   );
 
   final scaffoldMargin =
-      const EdgeInsets.symmetric(horizontal: 16, vertical: 8);
+  const EdgeInsets.symmetric(horizontal: 16, vertical: 8);
   final questionTextStyle = const TextStyle(
     color: Colors.white,
     fontSize: 20,
@@ -162,32 +178,113 @@ class _QuizScreenState extends State<QuizScreen> {
           ),
           const SizedBox(height: 20),
           Container(
-            alignment: Alignment.center,
             width: double.infinity,
             padding: const EdgeInsets.all(32),
             decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Column(
+            child: Row(
               children: [
-                Text(
-                  questionList[currentQuestionIndex].question,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text(
+                        questionList[currentQuestionIndex].question,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      _answerList(),
+                      const SizedBox(height: 10),
+                      _answerWidget(),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 70),
-                _answerList(),
-                const SizedBox(height: 30),
-                _answerWidget(),
+                const SizedBox(width: 20),
+                GestureDetector(
+                  onTap: () async {
+
+                    final response = await GetHint(questionList[currentQuestionIndex].question );
+                    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+                    String hint = jsonResponse['hint'];
+                    _showHintDialog(hint);
+                  },
+                  child: Image.asset(
+                    'assets/images/Live-Chatbot-unscreen.gif',
+                    height: 200,
+                    width: 150,
+                  ),
+                ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+
+  _showHintDialog(String hint ) {
+    final theme = Theme.of(context);
+    final dialog = Dialog(
+      child: Container(
+        width: 500,
+        height: 160,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Hint",
+                style: theme.textTheme.headline6,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                hint,
+                style: theme.textTheme.bodyText2,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text("OK"),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext buildContext, Animation<double> animation, Animation<double> secondaryAnimation) {
+        return RotationTransition(
+          turns: Tween(begin: 1.0, end: 6.0).animate(animation),
+          child: dialog,
+        );
+      },
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black.withOpacity(0.5),
+      transitionDuration: const Duration(milliseconds: 600),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOut,
+          ),
+          child: child,
+        );
+      },
     );
   }
 
@@ -203,24 +300,24 @@ class _QuizScreenState extends State<QuizScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: AnswerList
             .map((answer) => GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    // Adjust the width as per your needs
-                    margin: const EdgeInsets.symmetric(vertical: 2),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Text(
-                      answer,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ))
+          onTap: () {},
+          child: Container(
+            // Adjust the width as per your needs
+            margin: const EdgeInsets.symmetric(vertical: 2),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              answer,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ))
             .toList(),
       ),
     );
