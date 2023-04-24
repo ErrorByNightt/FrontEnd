@@ -20,13 +20,48 @@ import 'package:logger/logger.dart';
 
 class BlogHome extends StatefulWidget {
   static String routeName = '/BlogHome';
-  const BlogHome({super.key});
+  final String? userId;
+  final Map<String, dynamic>? userData;
+
+  const BlogHome ({ Key? key,
+    required this.userId,
+    this.userData,
+  }) : super(key: key);
 
   @override
   State<BlogHome> createState() => _BlogHomeState();
 }
 
 class _BlogHomeState extends State<BlogHome> {
+
+
+
+  late Map<String, dynamic> _userData = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+
+  void _fetchUserData() async {
+    final userId = widget.userId;
+
+    final response = await http.get(Uri.parse('http://localhost:9095/user/$userId'));
+    final responseData = json.decode(response.body);
+
+    if (responseData['user'] == null) {
+      return;
+    }
+
+    setState(() {
+      _userData = responseData['user'];
+
+
+    });
+  }
+
   Future<List<AddBlogModel>> fetchData() async {
     final response =
         await http.get(Uri.parse('http://localhost:5000/blog/getALL'));
@@ -227,7 +262,7 @@ class _BlogHomeState extends State<BlogHome> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => courses(),
+                          builder: (context) => courses(userId: _userData['_id'], userData: {},),
                         ),
                       );
                     },

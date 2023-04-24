@@ -17,13 +17,47 @@ import 'package:file_picker/file_picker.dart';
 import 'package:project_coding_game/NetworkHandler.dart';
 
 class Blog extends StatefulWidget {
-  Blog({super.key});
+  final String? userId;
+  final Map<String, dynamic>? userData;
+
+  const Blog ({ Key? key,
+    required this.userId,
+    this.userData,
+  }) : super(key: key);
 
   @override
   State<Blog> createState() => _BlogState();
 }
 
 class _BlogState extends State<Blog> {
+
+
+  late Map<String, dynamic> _userData = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+
+  void _fetchUserData() async {
+    final userId = widget.userId;
+
+    final response = await http.get(Uri.parse('http://localhost:9095/user/$userId'));
+    final responseData = json.decode(response.body);
+
+    if (responseData['user'] == null) {
+      return;
+    }
+
+    setState(() {
+      _userData = responseData['user'];
+
+
+    });
+  }
+
   static Future<http.Response> addBlog(String title, String body) async {
     Uri BlogURI = Uri.parse("http://localhost:5000/blog/add");
     final data = {"title": title, "body": body};
@@ -175,7 +209,7 @@ class _BlogState extends State<Blog> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => courses(),
+                        builder: (context) => courses(userId: _userData['_id'], userData: {},),
                       ),
                     );
                   },
@@ -457,7 +491,7 @@ class _BlogState extends State<Blog> {
                         response.statusCode == 201) {
                       Navigator.pushAndRemoveUntil(
                           context as BuildContext,
-                          MaterialPageRoute(builder: (context) => AddBlog()),
+                          MaterialPageRoute(builder: (context) => AddBlog(userId: _userData['_id'], userData: {},)),
                           (route) => false);
                     }
                   },

@@ -1,16 +1,86 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:project_coding_game/Games/game_home.dart';
+import 'package:project_coding_game/Screens/Classement.dart';
 import 'package:project_coding_game/Screens/chalenge-page.dart';
 import 'package:project_coding_game/Screens/profile.dart';
 import 'package:project_coding_game/Screens/quiz.dart';
 import 'package:project_coding_game/Screens/utils.dart';
+import 'package:http/http.dart' as http;
 
 import 'courses.dart';
+import 'home.dart';
 
-class Level extends StatelessWidget {
+class Level extends StatefulWidget {
+  final String? userId;
+  final Map<String, dynamic>? userData;
+
+  const Level ({ Key? key,
+    required this.userId,
+    this.userData,
+  }) : super(key: key);
+  @override
+  State<Level> createState() => _LevelState();
+}
+
+class _LevelState extends State<Level> {
+
+  late Map<String, dynamic> _userData = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+
+  void _fetchUserData() async {
+    final userId = widget.userId;
+
+    final response = await http.get(Uri.parse('http://localhost:9095/user/$userId'));
+    final responseData = json.decode(response.body);
+
+    if (responseData['user'] == null) {
+      return;
+    }
+
+    setState(() {
+      _userData = responseData['user'];
+
+
+    });
+  }
+
+  void _updateUserData(Map<String, dynamic> updatedData) async {
+    final userId = widget.userId;
+    final url = 'http://localhost:9095/user/update/$userId';
+    final headers = {'Content-Type': 'application/json'};
+    final body = json.encode(updatedData);
+
+    final response = await http.put(Uri.parse(url), headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      if (responseData['user'] != null) {
+        setState(() {
+          _userData = responseData['user'];
+          _userData = responseData['job'];
+          _userData = responseData['city'];
+          _userData = responseData['school'];
+
+
+        });
+      }
+    } else {
+      // handle error
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double baseWidth = 1908.96875;
@@ -48,7 +118,14 @@ class Level extends StatelessWidget {
                       shadowColor: MaterialStateProperty.all(
                           Color.fromARGB(19, 238, 155, 155)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  HomePage(userId: _userData['_id'], userData: {},),
+                        ),
+                      );
+                    },
                     // ignore: prefer_const_constructors
                     child: Row(
                       // ignore: prefer_const_literals_to_create_immutables
@@ -75,7 +152,14 @@ class Level extends StatelessWidget {
                       shadowColor: MaterialStateProperty.all(
                           Color.fromARGB(19, 207, 123, 123)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  classement(userId: _userData['_id'], userData: {},),
+                        ),
+                      );
+                    },
                     child: Row(
                       // ignore: prefer_const_literals_to_create_immutables
                       children: [
@@ -103,7 +187,7 @@ class Level extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Level(),
+                        MaterialPageRoute(builder: (context) => Level(userId: _userData['_id'], userData: {},),
                         ),
                       );
                     },
@@ -135,7 +219,7 @@ class Level extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => courses(),
+                          builder: (context) => courses(userId: _userData['_id'], userData: {},),
                         ),
                       );
                     },
@@ -167,7 +251,7 @@ class Level extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => QuizScreen(),
+                          builder: (context) => GameHome(),
                         ),
                       );
                     },

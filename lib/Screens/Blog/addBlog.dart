@@ -21,13 +21,51 @@ import 'package:logger/logger.dart';
 import '../../Components/GridCellBlog.dart';
 
 class AddBlog extends StatefulWidget {
-  const AddBlog({super.key});
+  static String routeName = '/BlogHome';
+  final String? userId;
+  final Map<String, dynamic>? userData;
+
+  const AddBlog ({ Key? key,
+    required this.userId,
+    this.userData,
+  }) : super(key: key);
 
   @override
   State<AddBlog> createState() => _AddBlogState();
 }
 
 class _AddBlogState extends State<AddBlog> {
+
+
+
+
+  late Map<String, dynamic> _userData = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+    blogs;
+  }
+
+
+  void _fetchUserData() async {
+    final userId = widget.userId;
+
+    final response = await http.get(Uri.parse('http://localhost:9095/user/$userId'));
+    final responseData = json.decode(response.body);
+
+    if (responseData['user'] == null) {
+      return;
+    }
+
+    setState(() {
+      _userData = responseData['user'];
+
+
+    });
+  }
+
   List<AddBlogModel> blogs = [];
   SuperModel superModel = SuperModel(data: []);
 
@@ -112,12 +150,6 @@ class _AddBlogState extends State<AddBlog> {
     print(blogs.length);
     return blogs;
   }*/
-
-  @override
-  void initState() {
-    super.initState();
-    blogs;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +275,7 @@ class _AddBlogState extends State<AddBlog> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => courses(),
+                          builder: (context) => courses(userId: _userData['_id'], userData: {},),
                         ),
                       );
                     },
@@ -430,7 +462,7 @@ class _AddBlogState extends State<AddBlog> {
                           onPressed: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Blog()),
+                              MaterialPageRoute(builder: (context) => Blog(userId: _userData['_id'], userData: {},)),
                             );
                           },
                           style: ButtonStyle(

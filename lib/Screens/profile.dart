@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:project_coding_game/Games/game_home.dart';
+import 'package:project_coding_game/Screens/Classement.dart';
 import 'package:project_coding_game/Screens/quiz.dart';
 import 'package:http/http.dart' as http;
 
 import 'courses.dart';
+import 'home.dart';
 import 'level-page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
@@ -238,7 +241,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       shadowColor: MaterialStateProperty.all(
                           Color.fromARGB(19, 238, 155, 155)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  HomePage(userId: _userData['_id'], userData: {},),
+                        ),
+                      );
+                    },
                     // ignore: prefer_const_constructors
                     child: Row(
                       // ignore: prefer_const_literals_to_create_immutables
@@ -266,7 +276,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       shadowColor: MaterialStateProperty.all(
                           Color.fromARGB(19, 207, 123, 123)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  classement(userId: _userData['_id'], userData: {},),
+                        ),
+                      );
+                    },
                     child: Row(
                       // ignore: prefer_const_literals_to_create_immutables
                       children: [
@@ -295,7 +312,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Level(),
+                        MaterialPageRoute(builder: (context) => Level(userId: _userData['_id'], userData: {},),
                         ),
                       );
                     },
@@ -328,7 +345,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => courses(),
+                          builder: (context) => courses(userId: _userData['_id'], userData: {},),
                         ),
                       );
                     },
@@ -361,7 +378,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => QuizScreen(),
+                          builder: (context) => GameHome(),
                         ),
                       );
                     },

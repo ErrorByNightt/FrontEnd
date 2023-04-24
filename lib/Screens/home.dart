@@ -10,6 +10,7 @@ import 'package:project_coding_game/Games/Entrainement.dart';
 import 'package:project_coding_game/Games/game_home.dart';
 import 'package:project_coding_game/Screens/AI.dart';
 import 'package:project_coding_game/Screens/AccueilPage.dart';
+import 'package:project_coding_game/Screens/Classement.dart';
 import 'package:project_coding_game/Screens/courses.dart';
 import 'package:project_coding_game/Screens/footer.dart';
 import 'package:project_coding_game/Screens/profile.dart';
@@ -98,7 +99,14 @@ class _HomePageState extends State<HomePage> {
                       shadowColor: MaterialStateProperty.all(
                           Color.fromARGB(19, 238, 155, 155)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  HomePage(userId: _userData['_id'], userData: {},),
+                        ),
+                      );
+                    },
                     // ignore: prefer_const_constructors
                     child: Row(
                       // ignore: prefer_const_literals_to_create_immutables
@@ -126,7 +134,14 @@ class _HomePageState extends State<HomePage> {
                       shadowColor: MaterialStateProperty.all(
                           Color.fromARGB(19, 207, 123, 123)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  classement(userId: _userData['_id'], userData: {},),
+                        ),
+                      );
+                    },
                     child: Row(
                       // ignore: prefer_const_literals_to_create_immutables
                       children: [
@@ -156,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Level(),
+                          builder: (context) => Level(userId: _userData['_id'], userData: {},),
                         ),
                       );
                     },
@@ -189,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => courses(),
+                          builder: (context) => courses(userId: _userData['_id'], userData: {},),
                         ),
                       );
                     },
@@ -255,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Scene(),
+                          builder: (context) => Scene(userId: _userData['_id'], userData: {},),
                         ),
                       );
                     },

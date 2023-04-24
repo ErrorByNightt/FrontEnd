@@ -1,16 +1,60 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:project_coding_game/Components/Custom_button.dart';
 import 'package:project_coding_game/Games/game_home.dart';
 import 'package:project_coding_game/Screens/courses.dart';
+import 'package:project_coding_game/Screens/level-page.dart';
 import 'package:project_coding_game/Screens/profile.dart';
 import 'package:project_coding_game/Screens/rooms/create_room.dart';
 import 'package:project_coding_game/Screens/rooms/join_room.dart';
 import 'package:project_coding_game/responsive/responsive.dart';
+import 'package:http/http.dart' as http;
 
-class classement extends StatelessWidget {
+import 'home.dart';
+
+class classement extends StatefulWidget {
+
+  final String? userId;
+  final Map<String, dynamic>? userData;
+  const classement({
+    Key? key,
+    required this.userId,
+    this.userData,
+  })  : assert(userId != null, 'userId must not be null'), super(key: key);
+
   static String routeName = '/classement';
-  const classement({super.key});
+
+
+  @override
+  State<classement> createState() => _classementState();
+}
+
+class _classementState extends State<classement> {
+
+  late Map<String, dynamic> _userData = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  void _fetchUserData() async {
+    final userId = widget.userId;
+
+    final response = await http.get(Uri.parse('http://localhost:9095/user/$userId'));
+    final responseData = json.decode(response.body);
+
+    if (responseData['user'] == null) {
+      return;
+    }
+
+    setState(() {
+      _userData = responseData['user'];
+    });
+  }
 
   void createRoom(BuildContext context) {
     Navigator.pushNamed(context, CreateRoom.routeName);
@@ -55,7 +99,14 @@ class classement extends StatelessWidget {
                       shadowColor: MaterialStateProperty.all(
                           Color.fromARGB(19, 238, 155, 155)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  HomePage(userId: _userData['_id'], userData: {},),
+                        ),
+                      );
+                    },
                     // ignore: prefer_const_constructors
                     child: Row(
                       // ignore: prefer_const_literals_to_create_immutables
@@ -83,7 +134,14 @@ class classement extends StatelessWidget {
                       shadowColor: MaterialStateProperty.all(
                           Color.fromARGB(19, 207, 123, 123)),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  classement(userId: _userData['_id'], userData: {},),
+                        ),
+                      );
+                    },
                     child: Row(
                       // ignore: prefer_const_literals_to_create_immutables
                       children: [
@@ -110,12 +168,12 @@ class classement extends StatelessWidget {
                           Color.fromARGB(19, 238, 155, 155)),
                     ),
                     onPressed: () {
-                      //!  Navigator.push(
-                      //!    context,
-                      //!    MaterialPageRoute(
-                      //!    builder: (context) => SIgnUp(),
-                      //!   ),
-                      //! );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  Level(userId: _userData['_id'], userData: {},),
+                        ),
+                      );
                     },
                     child: Row(
                       // ignore: prefer_const_literals_to_create_immutables
@@ -146,7 +204,7 @@ class classement extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => courses(),
+                          builder: (context) => courses(userId: _userData['_id'], userData: {},),
                         ),
                       );
                     },
