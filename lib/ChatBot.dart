@@ -90,7 +90,11 @@ class _ChatBotState extends State<ChatBot> {
       showUserNames: true,
       user: _user,
    //   userAgent: "_user",
-
+        avatarBuilder: (user) {
+          return CircleAvatar(
+            backgroundImage: NetworkImage("https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/1200px-ChatGPT_logo.svg.png"),
+            radius: 20,
+          );}
     );
   }
 

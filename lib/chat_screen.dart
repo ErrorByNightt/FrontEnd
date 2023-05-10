@@ -15,11 +15,17 @@ import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'model/Chat_screen.dart';
+import 'package:lottie/lottie.dart';
 
 class ChatScreen extends StatefulWidget {
+  bool list = false;
+  String? userPicAssetPath,name = "";
+   ChatScreen(this.list,  this.userPicAssetPath,this.name);
+
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
+
 
 class _ChatScreenState extends State<ChatScreen> {
   int tabSelected = 3;
@@ -31,7 +37,7 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
 
     _socket = IO.io(
-      'http://172.16.7.147:8080',
+      'http://192.168.43.133:8080',
     );
     _connectSocket();
     super.initState();
@@ -325,8 +331,6 @@ class _ChatScreenState extends State<ChatScreen> {
                   /* SizedBox(
                     height: 90,
                   ),*/
-
-                  /// Tab Options ///
                   /*Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -436,7 +440,6 @@ class _ChatScreenState extends State<ChatScreen> {
                   SizedBox(
                     height: 16,
                   ),
-
                   Expanded(
                     flex: 1,
                     child: LayoutBuilder(builder: (BuildContext context,
@@ -493,7 +496,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ],
           ),
         ),
-        Container(
+        widget.list? Container(
           width: 1186,
           child: Stack(
             children: <Widget>[
@@ -506,10 +509,33 @@ class _ChatScreenState extends State<ChatScreen> {
                 showUserAvatars: true,
                 showUserNames: true,
                 user: _user,
+    avatarBuilder: (user) {
+    return Column(
+      children: [
+        CircleAvatar(
+        backgroundImage: AssetImage(widget.userPicAssetPath!),
+        radius: 20,
+        ),
+        SizedBox(height: 4), // Adjust the spacing between avatar and name
+        Text(widget.name!,style: const TextStyle(fontWeight: FontWeight.bold)),
+      ],
+    );}
               )
             ],
           ),
-        ),
+        ): Column(
+          children: [
+            SizedBox( width: 1090,),
+            Container(
+              width: 600,
+              height: 600,
+
+              child:            Lottie.network(
+                'https://assets5.lottiefiles.com/packages/lf20_WpDG3calyJ.json' ,    width: 600,
+                height: 600,),
+            ),
+          ],
+        ) ,
       ],
     ));
   }
@@ -519,7 +545,7 @@ class ChatTile extends StatelessWidget {
   final String? userName, userPicAssetPath, lastMessage, time;
   int? unreadMessages = 0;
   bool? lastMessageSendByMe = false;
-
+bool? list ;
   double myWidth;
 
   ChatTile({
@@ -534,11 +560,17 @@ class ChatTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String userName = "mehdi";
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SoketMessages()));
+
+        list = true;
+
+       // ChatScreen(list!);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ChatScreen(list!,this.userPicAssetPath,this.userName)));
+
+/*        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SoketMessages()));*/
       },
       child: Container(
         padding: const EdgeInsets.only(bottom: 16),
@@ -581,7 +613,7 @@ class ChatTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        userName!,
+                        this.userName!,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 17,

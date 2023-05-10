@@ -178,7 +178,7 @@ class HomePage extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ChatScreen()));
+                        MaterialPageRoute(builder: (context) => ChatScreen(false,"","")));
                   },
                   child: Row(
                     // ignore: prefer_const_literals_to_create_immutables
