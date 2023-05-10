@@ -23,14 +23,14 @@ class coding extends StatefulWidget {
     Key? key,
     required this.userId,
     this.userData,
-  })  : assert(userId != null, 'userId must not be null'), super(key: key);
+  })  : assert(userId != null, 'userId must not be null'),
+        super(key: key);
 
   @override
   State<coding> createState() => _codingState();
 }
 
 class _codingState extends State<coding> {
-
   final _controller = TextEditingController();
 
   late Map<String, dynamic> _userData = {};
@@ -38,7 +38,8 @@ class _codingState extends State<coding> {
   void _fetchUserData() async {
     final userId = widget.userId;
 
-    final response = await http.get(Uri.parse('http://localhost:9095/user/$userId'));
+    final response =
+    await http.get(Uri.parse('http://localhost:9095/user/$userId'));
     final responseData = json.decode(response.body);
 
     if (responseData['user'] == null) {
@@ -50,16 +51,52 @@ class _codingState extends State<coding> {
     });
   }
 
+  String FormatString(String code) {
+    String originalString = code;
+
+    StringBuffer formattedString = StringBuffer();
+
+    int indentLevel = 0;
+    bool isNewLine = true;
+
+    for (int i = 0; i < originalString.length; i++) {
+      String char = originalString[i];
+
+      if (char == ' ') {
+        if (isNewLine) {
+          indentLevel++;
+        } else {
+          formattedString.write(char);
+        }
+      } else if (char == ':') {
+        formattedString.write(char);
+        formattedString.write('\n');
+        isNewLine = true;
+      } else if (char == '\n') {
+        isNewLine = true;
+      } else {
+        if (isNewLine) {
+          for (int j = 0; j < indentLevel; j++) {
+            formattedString.write('  ');
+          }
+          isNewLine = false;
+        }
+        formattedString.write(char);
+      }
+    }
+    return formattedString.toString();
+  }
+
   Future<http.Response?> CompileCode(String code) async {
     Uri CompileCodeURI = Uri.parse("http://localhost:9095/compile/CompileCode");
-    final data = {"code": code};
+    String singleLineString = code.replaceAll('\n', '\\n');
+    final data = {"code": singleLineString};
     String params = jsonEncode(data);
     http.Response response =
-    await http.post (CompileCodeURI, body: params, headers: <String, String>{
+    await http.post(CompileCodeURI, body: params, headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     });
     if (response.statusCode == 200) {
-      print(response.body);
       return response;
     } else {
       print(response.statusCode);
@@ -75,6 +112,7 @@ class _codingState extends State<coding> {
     object = GetCode();
     _controller.text = 'Your output';
   }
+
   Future<Code> GetCode() async {
     Uri getCodeURI = Uri.parse("http://localhost:9095/code/testCode");
     http.Response response = await http.get(
@@ -83,28 +121,23 @@ class _codingState extends State<coding> {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
-    if(response.statusCode == 201) {
+    if (response.statusCode == 201) {
       var decoded = json.decode(response.body);
 
       Code object = Code(
         //decoded[0]['_id'],
           decoded['problem'],
           decoded['solution'],
-          decoded['output']
-      );
-
-      print("Problem : ${object.problem}");
-      print("Solution : ${object.solution}");
-      print("Output : ${object.output}");
-
+          decoded['output']);
+      print(object.solution);
       return object;
-    } return
-      Code(
-        //decoded[0]['_id'],
-          'problem','solution','outuput'
-      );
+    }
+    return Code(
+      //decoded[0]['_id'],
+        'problem',
+        'solution',
+        'outuput');
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -112,28 +145,26 @@ class _codingState extends State<coding> {
     CodeController? _input;
     CodeController? _output;
     Map<String, TextStyle>? theme = monokaiSublimeTheme;
-    final source = "print(\"ok\")\n\n\n\n\n\n\n\n\n";
-    final inn = "your input\n\n\n\n\n\n\n\n\n";
+    final source = "print(\"ok\")\n";
+    final inn = "your input";
     final out = "the output of\n your code.\n\n\n\n\n\n\n\n";
 
     // Instantiate the CodeController
     _codeController = CodeController(
-
-      text: source,
       language: python,
     );
     _input = CodeController(
       text: inn,
       language: python,
     );
-    _output=CodeController(
+    _output = CodeController(
       text: out,
       language: python,
     );
     return FutureBuilder<Code>(
       future: object,
       builder: (context, snapshot) {
-        if(snapshot.hasData) {
+        if (snapshot.hasData) {
           final code = snapshot.data!;
           final problem = code.problem;
           return Container(
@@ -189,11 +220,12 @@ class _codingState extends State<coding> {
                             ),
                             Spacer(),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 15),
                               child: ElevatedButton(
                                 style: ButtonStyle(
-                                  backgroundColor:
-                                  MaterialStateProperty.all(Colors.transparent) ,
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.transparent),
                                   shadowColor: MaterialStateProperty.all(
                                       Color.fromARGB(19, 238, 155, 155)),
                                 ),
@@ -208,7 +240,8 @@ class _codingState extends State<coding> {
                                     // ignore: prefer_const_constructors
                                     Text(
                                       'Home',
-                                      style: const TextStyle(fontSize: 12, letterSpacing: 1),
+                                      style: const TextStyle(
+                                          fontSize: 12, letterSpacing: 1),
                                     ),
                                   ],
                                 ),
@@ -216,11 +249,12 @@ class _codingState extends State<coding> {
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 15),
                               child: ElevatedButton(
                                 style: ButtonStyle(
-                                  backgroundColor:
-                                  MaterialStateProperty.all(Colors.transparent),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.transparent),
                                   shadowColor: MaterialStateProperty.all(
                                       Color.fromARGB(19, 207, 123, 123)),
                                 ),
@@ -234,18 +268,20 @@ class _codingState extends State<coding> {
                                     // ignore: prefer_const_constructors
                                     Text(
                                       'Classement',
-                                      style: const TextStyle(fontSize: 12, letterSpacing: 1),
+                                      style: const TextStyle(
+                                          fontSize: 12, letterSpacing: 1),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 15),
                               child: ElevatedButton(
                                 style: ButtonStyle(
-                                  backgroundColor:
-                                  MaterialStateProperty.all(Colors.transparent),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.transparent),
                                   shadowColor: MaterialStateProperty.all(
                                       Color.fromARGB(19, 238, 155, 155)),
                                 ),
@@ -266,18 +302,20 @@ class _codingState extends State<coding> {
                                     // ignore: prefer_const_constructors
                                     Text(
                                       'Levels',
-                                      style: const TextStyle(fontSize: 12, letterSpacing: 1),
+                                      style: const TextStyle(
+                                          fontSize: 12, letterSpacing: 1),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 15),
                               child: ElevatedButton(
                                 style: ButtonStyle(
-                                  backgroundColor:
-                                  MaterialStateProperty.all(Colors.transparent),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.transparent),
                                   shadowColor: MaterialStateProperty.all(
                                       Color.fromARGB(19, 238, 155, 155)),
                                 ),
@@ -293,23 +331,26 @@ class _codingState extends State<coding> {
                                   // ignore: prefer_const_literals_to_create_immutables
                                   children: [
                                     // ignore: prefer_const_constructors
-                                    Icon(Icons.my_library_books_outlined, size: 20),
+                                    Icon(Icons.my_library_books_outlined,
+                                        size: 20),
                                     SizedBox(width: 5),
                                     // ignore: prefer_const_constructors
                                     Text(
                                       'Documentation',
-                                      style: const TextStyle(fontSize: 12, letterSpacing: 1),
+                                      style: const TextStyle(
+                                          fontSize: 12, letterSpacing: 1),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 15),
                               child: ElevatedButton(
                                 style: ButtonStyle(
-                                  backgroundColor:
-                                  MaterialStateProperty.all(Colors.transparent),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Colors.transparent),
                                   shadowColor: MaterialStateProperty.all(
                                       Color.fromARGB(19, 238, 155, 155)),
                                 ),
@@ -330,7 +371,8 @@ class _codingState extends State<coding> {
                                     // ignore: prefer_const_constructors
                                     Text(
                                       'Entrainement',
-                                      style: const TextStyle(fontSize: 12, letterSpacing: 1),
+                                      style: const TextStyle(
+                                          fontSize: 12, letterSpacing: 1),
                                     ),
                                   ],
                                 ),
@@ -338,7 +380,8 @@ class _codingState extends State<coding> {
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 15),
                               child: MouseRegion(
                                 cursor: SystemMouseCursors.click,
                                 child: Row(
@@ -354,7 +397,8 @@ class _codingState extends State<coding> {
                                       'Dhia Bouslimi',
                                       style: TextStyle(
                                           fontSize: 15,
-                                          color: Color.fromARGB(255, 143, 139, 139)),
+                                          color: Color.fromARGB(
+                                              255, 143, 139, 139)),
                                     ),
                                     const SizedBox(width: 10),
                                     GestureDetector(
@@ -369,8 +413,8 @@ class _codingState extends State<coding> {
                                 onHover: (PointerEvent details) {
                                   showMenu(
                                     context: context,
-                                    position:
-                                    const RelativeRect.fromLTRB(70.0, 70.0, 10.0, 0.0),
+                                    position: const RelativeRect.fromLTRB(
+                                        70.0, 70.0, 10.0, 0.0),
                                     color: Color.fromARGB(115, 133, 112, 112),
                                     items: <PopupMenuEntry>[
                                       PopupMenuItem(
@@ -379,11 +423,13 @@ class _codingState extends State<coding> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => ProfilePage(userId: _userData['_id'])),
+                                                  builder: (context) =>
+                                                      ProfilePage(userId: '',)),
                                             );
                                           },
                                           child: Text('Profil',
-                                              style: TextStyle(color: Colors.white)),
+                                              style: TextStyle(
+                                                  color: Colors.white)),
                                         ),
                                       ),
                                       PopupMenuItem(
@@ -392,11 +438,13 @@ class _codingState extends State<coding> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => ProfilePage(userId: _userData['_id'])),
+                                                  builder: (context) =>
+                                                      ProfilePage(userId: '',)),
                                             );
                                           },
                                           child: Text('Amis',
-                                              style: TextStyle(color: Colors.white)),
+                                              style: TextStyle(
+                                                  color: Colors.white)),
                                         ),
                                       ),
                                       PopupMenuItem(
@@ -405,11 +453,13 @@ class _codingState extends State<coding> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => ProfilePage(userId: _userData['_id'])),
+                                                  builder: (context) =>
+                                                      ProfilePage(userId: '',)),
                                             );
                                           },
                                           child: Text('Paramètres',
-                                              style: TextStyle(color: Colors.white)),
+                                              style: TextStyle(
+                                                  color: Colors.white)),
                                         ),
                                       ),
                                       PopupMenuItem(
@@ -418,12 +468,13 @@ class _codingState extends State<coding> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => ProfilePage(userId: _userData['_id'])),
+                                                  builder: (context) =>
+                                                      ProfilePage(userId: '',)),
                                             );
-
                                           },
                                           child: Text('Déconnexion',
-                                              style: TextStyle(color: Colors.white)),
+                                              style: TextStyle(
+                                                  color: Colors.white)),
                                         ),
                                       ),
                                     ],
@@ -447,24 +498,21 @@ class _codingState extends State<coding> {
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),
-
                         ),
                       ),
-
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           const SizedBox(height: 60),
                           Container(
-
                             margin: const EdgeInsets.all(10),
                             padding: const EdgeInsets.all(10),
                             alignment: Alignment.center,
                             decoration: const BoxDecoration(
-                                color: Color.fromARGB(255, 121, 34, 30),
+                                color: Colors.transparent,
                                 // Set border color
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(3.0)), // Set rounded corner radius
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                    3.0)), // Set rounded corner radius
                                 boxShadow: [
                                   BoxShadow(
                                       blurRadius: 10,
@@ -473,7 +521,7 @@ class _codingState extends State<coding> {
                                 ] // Make rounded corner of border
                             ),
                             child: Column(
-                              children:<Widget> [
+                              children: <Widget>[
                                 // ignore: prefer_const_constructors
                                 Text(
                                   ' \n ▫️Start Coding: ▫️ \n',
@@ -489,7 +537,8 @@ class _codingState extends State<coding> {
 
                                 Container(
                                     width: 800,
-                                    child:Text( problem,
+                                    child: Text(
+                                      problem,
                                       style: TextStyle(
                                           fontFamily: 'Inika',
                                           fontSize: 25.0,
@@ -497,11 +546,11 @@ class _codingState extends State<coding> {
                                           fontWeight: FontWeight.normal,
                                           color: Colors.white),
                                     ))
-
                               ],
-                            ), ),
-                        ],  ),
-
+                            ),
+                          ),
+                        ],
+                      ),
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -509,7 +558,8 @@ class _codingState extends State<coding> {
                             Container(
                               width: 868,
                               height: 40,
-                              child: Text('  Solution',
+                              child: Text(
+                                '  Solution',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontFamily: 'Inika',
@@ -525,41 +575,106 @@ class _codingState extends State<coding> {
                               child: ElevatedButton(
                                   style: ButtonStyle(
                                     alignment: Alignment.centerRight,
-                                    backgroundColor:
-                                    MaterialStateProperty.all(Colors.transparent),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.transparent),
                                     shadowColor: MaterialStateProperty.all(
                                         Color.fromARGB(19, 238, 155, 155)),
                                   ),
                                   onPressed: () async {
-                                    print("testing jdoodle api");
-                                    final response = await CompileCode(_codeController!.text);
-                                    print(_codeController!.text);
-                                    print("Response : "+response.toString());
-                                    Map<String, dynamic> body = jsonDecode(response!.body);
-                                    print(response);
+                                    //("testing jdoodle api");
+                                    final response = await CompileCode(
+                                        _codeController!.text);
+                                    Map<String, dynamic> body =
+                                    jsonDecode(response!.body);
                                     switch (response?.statusCode) {
                                       case 200:
                                         {
-                                          setState(() { _controller.text = body['data']['output']; });
+                                          setState(() {
+                                            _controller.text =
+                                            body['data']['output'];
+                                            _codeController?.text =
+                                                _codeController!.text;
+                                          });
+                                          if ("Output : " +
+                                              body['data']['output'] ==
+                                              code.output + "\n") {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title: const Text('Good Job!',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Inika',
+                                                    letterSpacing: 3,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 30,
+                                                    color: Color(0xff951208),
+                                                  ),
+                                                ),
+                                                content: Text(
+                                                  'You are correct!',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Inika',
+                                                    letterSpacing: 3,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 20,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text('Next',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Inika',
+                                                        letterSpacing: 3,
+                                                        fontWeight: FontWeight.w300,
+                                                        fontSize: 15,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }
                                         }
                                         break;
                                       case 403:
                                         {
                                           showDialog(
                                             context: context,
-                                            builder: (context) =>
-                                                AlertDialog(
-                                                  title: const Text('Error'),
-                                                  content: Text('403'),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: Text('OK'),
-                                                    ),
-                                                  ],
+                                            builder: (context) => AlertDialog(
+                                              title: const Text('Error',
+                                                style: TextStyle(
+                                                  fontFamily: 'Inika',
+                                                  letterSpacing: 3,
+                                                  fontWeight: FontWeight.w300,
+                                                  fontSize: 30,
+                                                  color: Color(0xff951208),
                                                 ),
+                                              ),
+                                              content: Text('403',
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('OK',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Inika',
+                                                      letterSpacing: 3,
+                                                      fontWeight: FontWeight.w300,
+                                                      fontSize: 25,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           );
                                         }
                                         break;
@@ -567,32 +682,53 @@ class _codingState extends State<coding> {
                                         {
                                           showDialog(
                                             context: context,
-                                            builder: (context) =>
-                                                AlertDialog(
-                                                  title: const Text('Error'),
-                                                  content: Text('Server Error'),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: Text('OK'),
-                                                    ),
-                                                  ],
+                                            builder: (context) => AlertDialog(
+                                              title: const Text('Error',
+                                                style: TextStyle(
+                                                  fontFamily: 'Inika',
+                                                  letterSpacing: 3,
+                                                  fontWeight: FontWeight.w300,
+                                                  fontSize: 40,
+                                                  color: Color(0xff951208),
                                                 ),
+                                              ),
+                                              content: Text('Server Error',
+                                                style: TextStyle(
+                                                  fontFamily: 'Inika',
+                                                  letterSpacing: 3,
+                                                  fontWeight: FontWeight.w300,
+                                                  fontSize: 30,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('OK',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Inika',
+                                                      letterSpacing: 3,
+                                                      fontWeight: FontWeight.w300,
+                                                      fontSize: 25,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           );
                                         }
                                         break;
                                     }
-
                                   },
-                                  child: Icon(
-                                      Feather.play)
-                              ),
+                                  child: Icon(Feather.play)),
                             ),
                             Container(
                               width: 250,
-                              child: Text('  Input',
+                              child: Text(
+                                '  Input',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontFamily: 'Inika',
@@ -605,7 +741,8 @@ class _codingState extends State<coding> {
                             ),
                             Container(
                               width: 200,
-                              child: Text('  Output',
+                              child: Text(
+                                '  Output',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontFamily: 'Inika',
@@ -616,10 +753,9 @@ class _codingState extends State<coding> {
                                 ),
                               ),
                             ),
-
                           ]),
                       Row(
-                        children:<Widget> [
+                        children: <Widget>[
                           Container(
                             width: 900,
                             margin: const EdgeInsets.all(10),
@@ -628,8 +764,8 @@ class _codingState extends State<coding> {
                             decoration: const BoxDecoration(
                                 color: Color.fromARGB(255, 121, 34, 30),
                                 // Set border color
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(3.0)), // Set rounded corner radius
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                    3.0)), // Set rounded corner radius
                                 boxShadow: [
                                   BoxShadow(
                                       blurRadius: 10,
@@ -639,7 +775,8 @@ class _codingState extends State<coding> {
                             ),
                             child: CodeField(
                               controller: _codeController!,
-                              textStyle: TextStyle(fontFamily: 'SourceCode', fontSize: 20),
+                              textStyle: TextStyle(
+                                  fontFamily: 'SourceCode', fontSize: 20),
                             ),
                           ),
                           Container(
@@ -650,8 +787,8 @@ class _codingState extends State<coding> {
                             decoration: const BoxDecoration(
                                 color: Color.fromARGB(255, 121, 34, 30),
                                 // Set border color
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(1.0)), // Set rounded corner radius
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                    1.0)), // Set rounded corner radius
                                 boxShadow: [
                                   BoxShadow(
                                       blurRadius: 10,
@@ -661,7 +798,8 @@ class _codingState extends State<coding> {
                             ),
                             child: CodeField(
                               controller: _input!,
-                              textStyle: TextStyle(fontFamily: 'SourceCode', fontSize: 20),
+                              textStyle: TextStyle(
+                                  fontFamily: 'SourceCode', fontSize: 20),
                             ),
                           ),
                           Container(
@@ -672,8 +810,8 @@ class _codingState extends State<coding> {
                             decoration: const BoxDecoration(
                                 color: Color.fromARGB(255, 121, 34, 30),
                                 // Set border color
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(3.0)), // Set rounded corner radius
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                    3.0)), // Set rounded corner radius
                                 boxShadow: [
                                   BoxShadow(
                                       blurRadius: 10,
@@ -686,35 +824,25 @@ class _codingState extends State<coding> {
                               //textStyle: TextStyle(fontFamily: 'SourceCode', fontSize: 20),
                             ),
                           ),
-
                         ],
                       ),
-
-
-
                     ],
                   ),
                 ),
               ));
-        }
-        else if (snapshot.hasError) {
+        } else if (snapshot.hasError) {
           return Text("Error: ${snapshot.error}");
-        }
-        else {
+        } else {
           return Center(
             child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
             ),
           );
-
         }
       },
-
     );
-
   }
 }
-
 
 class Code {
   //final String id;

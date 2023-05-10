@@ -13,17 +13,23 @@ class UrlExecutor2 extends StatefulWidget {
 }
 
 class _UrlExecutor2State extends State<UrlExecutor2> {
+
+
   final urlController = TextEditingController(text: "http://localhost:9095/code/testCode");
   String responseText = '';
 
   final urlController2 = TextEditingController(text: "http://localhost:9095/code/saveCode");
   String responseText2 = '';
 
+  final _idController = TextEditingController();
+  late String _selectedState;
+
   final url2BodyController = TextEditingController();
 
   @override
   void dispose() {
     urlController.dispose();
+    _idController.dispose();
     super.dispose();
   }
 
@@ -107,72 +113,99 @@ class _UrlExecutor2State extends State<UrlExecutor2> {
     */
   }
 
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('URL Executor'),
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xff951208), Color(0xff250402)],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextField(
-                controller: urlController,
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: OutlineInputBorder(),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.red.withOpacity(0.3),
+          title: Text('Génerer Quiz'),
+
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextField(
+                  controller: urlController,
+                  decoration: InputDecoration(
+                    enabled: false,
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: executeUrl,
-                child: Text('Execute'),
-              ),
-              SizedBox(height: 16),
-              Container(
-                child: GestureDetector(
-                  onTap: () {
-                    Clipboard.setData(ClipboardData(text: responseText));
-                    showToast('Response copied to clipboard!');
-                  },
-                  child: SelectableText(
-                    responseText,
-                    style: TextStyle(
-                      fontFamily: 'Courier New',
-                      fontSize: 12,
-                      height: 1.5,
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: executeUrl,
+                  child: Text('Execute'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Container(
+                  child: GestureDetector(
+                    onTap: () {
+                      Clipboard.setData(ClipboardData(text: responseText));
+                      showToast('Response copied to clipboard!');
+                    },
+                    child: SelectableText(
+                      responseText,
+                      style: TextStyle(
+                        fontFamily: 'Courier New',
+                        fontSize: 12,
+                        height: 1.5,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: urlController2,
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: OutlineInputBorder(),
+                SizedBox(height: 16),
+                TextField(
+                  controller: urlController2,
+                  decoration: InputDecoration(
+                    enabled: false,
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-              ),
-              SizedBox(height: 16),
-              Container(
-                child: TextField(
-                  maxLines: null,
-                  controller: url2BodyController,
+
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: execURL,
+                  child: Text('Execute'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                  ),
                 ),
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: execURL,
-                child: Text('Execute'),
-              ),
-            ],
+
+
+
+
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
+
+
 }

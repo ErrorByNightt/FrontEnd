@@ -14,8 +14,11 @@ import 'package:project_coding_game/Screens/terms&conditions.dart';
 import 'package:project_coding_game/authentification/sign_in.dart';
 import 'package:project_coding_game/authentification/sign_up.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:project_coding_game/provider/room_data_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'Games/testing-game_room.dart';
+import 'Screens/AccueilPage.dart';
 import 'Screens/SpeechToText.dart';
 import 'Screens/admin.dart';
 import 'Screens/chalenge-page.dart';
@@ -40,21 +43,22 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          //  primarySwatch: Colors.blue,
-        ),
-        routes: {
-          JoinRoom.routeName: (context) => const JoinRoom(),
-          CreateRoom.routeName: (context) => const CreateRoom(),
-          //Hangman.routeName: (context) => const Hangman(),
-          GameScreen.routeName: (context) => const GameScreen()
-        },
-        //home: coding(userId: '6435dfa7b98f0ee65b3f870d',));
-        //home: side(title: 'python',));
-    home: SignIn());
+    return ChangeNotifierProvider(
+      create: (context) => RoomDataProvider(),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'CodeNinja',
+          theme: ThemeData(
+            //  primarySwatch: Colors.blue,
+          ),
+          routes: {
+            JoinRoom.routeName: (context) => const JoinRoom(),
+            CreateRoom.routeName: (context) => const CreateRoom(),
+            Hangman.routeName: (context) => const Hangman(),
+            GameScreen.routeName: (context) => const GameScreen()
+          },
+          home: ProfilePage(userId: '6435dfa7b98f0ee65b3f870d',)),
+    );
   }
 }
 
